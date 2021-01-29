@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.pungo.game.scenes.MenuScene
 import com.pungo.game.scenes.StartupScreen
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.scenes.LayerManager
@@ -19,7 +20,7 @@ class Main : ApplicationAdapter() {
         Gdx.input.inputProcessor = inputProcessor
 
         batch = SpriteBatch()
-        LayerManager.add(StartupScreen(), true)
+        LayerManager.add(MenuScene(), true)
      //   addCursor()
     }
 /*
