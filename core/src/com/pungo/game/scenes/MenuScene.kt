@@ -1,6 +1,7 @@
-package com.pungo.game
+package com.pungo.game.scenes
 
 import com.badlogic.gdx.Gdx
+import com.pungo.game.ScoreManager
 import com.pungo.modules.audio.MusicPlayer
 import com.pungo.modules.audio.SfxPlayer
 import com.pungo.modules.basic.geometry.Rectangle
@@ -14,5 +15,6 @@ import com.pungo.modules.visuals.textureHandling.TextureCache
 import kotlin.random.Random
 
 class MenuScene : Scene("menu", 0f, true) {
-
+    init {
+    }
 }
