@@ -16,11 +16,10 @@ class Main : ApplicationAdapter() {
 
     override fun create() {
         GetLcs.lcsInitialize()
-        //GetLcs.lcsInitialize(1920,1080)
+        GetLcs.lcsInitialize(1920,1080)
         Gdx.input.inputProcessor = inputProcessor
 
         batch = SpriteBatch()
-        //LayerManager.add(MenuScene(), true)
         LayerManager.add(StartupScreen(), true)
      //   addCursor()
     }

@@ -24,16 +24,11 @@ class StartupScreen: Scene("startup", 0f, true)  {
             it.element = PinupImage("bg2",st2)
         }
 
-
-
-
         jb.addEvent(app_time*2) {
             LayerManager.scenesToRemove.add(this)
             LayerManager.scenesToAdd.add(Pair(MenuScene(), true))
             dispose()
         }
-
-
     }
 
     override fun update() {
@@ -53,6 +48,4 @@ class StartupScreen: Scene("startup", 0f, true)  {
         st.recolour(Color(1f,1f,1f,a))
         st2.recolour(Color(1f,1f,1f,b))
     }
-
-
 }
