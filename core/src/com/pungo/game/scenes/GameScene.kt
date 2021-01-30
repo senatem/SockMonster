@@ -58,7 +58,7 @@ class GameScene : Scene("game", 0f, true)  {
 
         mainDistrict.addFullPlot("clothes", Rectangle(-261f/1280f,1019f/1280f,0f,1f), z=30).also {
             it.element = PinupImage("clothes",SingleTexture(Gdx.files.internal("machine/clothes.png"))).also {
-                it.image.recolour(Color(1f,1f,1f,0.3f))
+                it.image.recolour(Color(1f,1f,1f,1f))
             }
         }
 
@@ -66,7 +66,7 @@ class GameScene : Scene("game", 0f, true)  {
             it.element = monster
         }
 
-        mainDistrict.addFullPlot("monsterGlow",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=45).also {
+        mainDistrict.addFullPlot("monsterGlow",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=35).also {
             it.element = SetButton("mg",
                 SingleTexture(Gdx.files.internal("Sock Monster Body parts/monster_glow.png")),
                 SingleTexture(Gdx.files.internal("Sock Monster Body parts/monster_glow.png")).also {
@@ -141,17 +141,10 @@ class GameScene : Scene("game", 0f, true)  {
         socks.forEach {
             it.draw(batch)
         }
+        //highlightClicks(batch)
     }
 
-    private fun grabby(){
-        grabbyCounter += Gdx.graphics.deltaTime
-        if(grabbyCounter<0.2f){
-            Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
-        }else{
-            Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
-        }
-        grabbyCounter %= 0.4f
-    }
+
 
     override fun update() {
         super.update()
@@ -248,6 +241,17 @@ class GameScene : Scene("game", 0f, true)  {
 
             }
         }
+    }
+
+
+    private fun grabby(){
+        grabbyCounter += Gdx.graphics.deltaTime
+        if(grabbyCounter<0.2f){
+            Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
+        }else{
+            Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
+        }
+        grabbyCounter %= 0.4f
     }
 
 
