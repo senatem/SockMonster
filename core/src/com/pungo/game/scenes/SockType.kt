@@ -58,9 +58,6 @@ enum class SockType {
     },TEST{
         private val ow = 120f
         private val oh = 120f
-        override fun getScoreMult(): Float {
-            return 2f
-        }
         override fun getWidth() = GetLcs.byPixel(ow*rescale)
         override fun getHeight() = GetLcs.byPixel(oh*rescale)
         override fun getRect(): List<ConvexPolygon> {

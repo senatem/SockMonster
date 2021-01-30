@@ -32,6 +32,7 @@ class GameScene : Scene("game", 0f, true)  {
     // private val drumSpeed = 0.4f
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
+    private val monster = Monster()
     var testCounter = 0
     init {
         mainDistrict.addFullPlot("background",z=1).also {
@@ -59,7 +60,7 @@ class GameScene : Scene("game", 0f, true)  {
         }
 
         mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
-            it.element = Monster()
+            it.element = monster
         }
 
 
@@ -130,6 +131,7 @@ class GameScene : Scene("game", 0f, true)  {
                             filled.remove(loc)
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
+                            monster.wearSock(it.id)
                         }
                     }
                 }

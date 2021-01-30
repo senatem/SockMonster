@@ -16,36 +16,41 @@ class Monster: MultiMediaItem("Monster") {
     }
     val leftArm = MultiMediaItem("leftArm").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/default.png"))))
-        it.addElement(PinupImage("S_2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/S_2.png"))))
-        it.addElement(PinupImage("S_3",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/S_3.png"))))
+        WornSocks.leftArmList.forEach { it2->
+            it.addElement(PinupImage(it2,SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/$it2.png"))))
+        }
         it.invisibleExcept("default")
     }
 
     val rightArm = MultiMediaItem("rightArm").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_arm/default.png"))))
-        it.addElement(PinupImage("L_1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_arm/L_1.png"))))
-        it.addElement(PinupImage("S_5",SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_arm/S_5.png"))))
+        WornSocks.rightArmList.forEach { it2->
+            it.addElement(PinupImage(it2,SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_arm/$it2.png"))))
+        }
         it.invisibleExcept("default")
     }
 
     val rightLeg = MultiMediaItem("rightLeg").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_leg/default.png"))))
-        it.addElement(PinupImage("L_3",SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_leg/L_3.png"))))
-        it.addElement(PinupImage("M_2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_leg/M_2.png"))))
+        WornSocks.rightLegList.forEach { it2->
+            it.addElement(PinupImage(it2,SingleTexture(Gdx.files.internal("Sock Monster Body parts/right_leg/$it2.png"))))
+        }
         it.invisibleExcept("default")
     }
 
     val leftLeg = MultiMediaItem("leftLeg").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_leg/default.png"))))
-        it.addElement(PinupImage("L_2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_leg/L_2.png"))))
-        it.addElement(PinupImage("S_1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_leg/S_1.png"))))
+        WornSocks.leftLegList.forEach { it2->
+            it.addElement(PinupImage(it2,SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_leg/$it2.png"))))
+        }
         it.invisibleExcept("default")
     }
 
     val tummy = MultiMediaItem("tummy").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/tummy/default.png"))))
-        it.addElement(PinupImage("M_1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/tummy/M_1.png"))))
-        it.addElement(PinupImage("S_4",SingleTexture(Gdx.files.internal("Sock Monster Body parts/tummy/S_4.png"))))
+        WornSocks.tummyList.forEach { it2->
+            it.addElement(PinupImage(it2,SingleTexture(Gdx.files.internal("Sock Monster Body parts/tummy/$it2.png"))))
+        }
         it.invisibleExcept("default")
     }
 
@@ -57,6 +62,62 @@ class Monster: MultiMediaItem("Monster") {
         addElement(rightLeg)
         addElement(leftLeg)
         addElement(tummy)
+
+    }
+
+    /** Returns true if the monster has clothes everywhere
+     *
+     */
+    fun allClothed(): Boolean {
+        var notDefault = true
+        listOf(leftArm,rightArm, leftLeg, rightArm, tummy).forEach {
+            if (it.findElement("default")!!.visible){
+                notDefault = false
+            }
+        }
+        return notDefault
+    }
+
+    fun undress(){
+        listOf(leftArm,rightArm, leftLeg, rightArm, tummy).forEach {
+            it.invisibleExcept("default")
+        }
+    }
+
+    /** Wears a sock by id
+     *
+     */
+    fun wearSock(id: String){
+        when (id) {
+            in WornSocks.tummyList -> {
+                tummy.invisibleExcept(id)
+            }
+            in WornSocks.leftLegList -> {
+                leftLeg.invisibleExcept(id)
+            }
+            in WornSocks.rightLegList -> {
+                rightLeg.invisibleExcept(id)
+            }
+
+            in WornSocks.leftArmList -> {
+                leftArm.invisibleExcept(id)
+            }
+            in WornSocks.rightArmList -> {
+                rightArm.invisibleExcept(id)
+            }
+            else -> {
+                throw Exception("I cant wear $id")
+            }
+        }
+    }
+
+    object WornSocks{
+        val tummyList = listOf("M_1","S_4")
+        val leftLegList =  listOf("L_2","S_1")
+        val rightLegList = listOf("L_3","M_2")
+        val leftArmList = listOf("S_2","S_3")
+        val rightArmList = listOf("L_1","S_5")
+
 
     }
 }
