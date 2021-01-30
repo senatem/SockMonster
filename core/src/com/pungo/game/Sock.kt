@@ -23,9 +23,6 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
     var theta = Angle(0f)
     var speed = 0f
     var held = false
-    //val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
-    //    it.clicked = clickFunction
-    //}
     val image = PinupImage("sb",SingleTexture(path)).also {
         it.resize(w,h)
     }
@@ -33,18 +30,14 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
     fun draw(batch: SpriteBatch){
         (image.image as SingleTexture).subTexture.setOriginCenter()
         (image.image as SingleTexture).subTexture.rotation = -(theta).deg
-
         image.draw(batch)
-        //sb.draw(batch)
     }
 
     private fun relocate(x: LcsVariable,y: LcsVariable){
         image.relocate(x,y)
-        //sb.relocate(x,y)
     }
 
     fun update(){
-        //sb.update()
         image.update()
     }
 
@@ -64,7 +57,6 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
             held=false
             false
         }
-        //sb.touchHandler(true)
     }
 
     fun relocate(radius: LcsVariable, drumCentre: Pair<LcsVariable,LcsVariable>){
@@ -77,15 +69,12 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
 
     fun modifyClickFunction(clickFunction: () -> Unit){
         this.clickFunction = clickFunction
-        //sb.clicked = clickFunction
     }
 
     fun relativeClick(x: LcsVariable = GetLcs.ofX(),y: LcsVariable = GetLcs.ofY()): Boolean {
         val rect = GetLcsRect.byParameters(w,h,cX,cY)
-
         val rX = rect.getWidthRatio(x)
         val rY = rect.getHeightRatio(y)
-        //return sockType.getRect().any { it.contains(Point(rX,rY)) }
         val rangle = (theta).rotateVector(rX-0.5f,rY-0.5f)
         return sockType.getRect().any { it.contains(Point(rangle.first+0.5f, rangle.second+0.5f)) }
     }
