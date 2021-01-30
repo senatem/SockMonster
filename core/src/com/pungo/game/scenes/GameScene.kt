@@ -15,11 +15,7 @@ import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
-import java.util.*
-import kotlin.concurrent.schedule
-import kotlin.math.cos
 import kotlin.math.roundToInt
-import kotlin.math.sin
 
 class GameScene : Scene("game", 0f, true)  {
     var score = 0
@@ -94,7 +90,7 @@ class GameScene : Scene("game", 0f, true)  {
             sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
         }
 
-        for(i in 1..2){
+        for(i in 1..4){
             sockDrawer.add(Sock("M_$i",Gdx.files.internal("socks/M_$i.png"),SockType.MEDIUM))
         }
 
