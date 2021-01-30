@@ -11,6 +11,7 @@ import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
+import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -68,7 +69,9 @@ class GameScene : Scene("game", 0f, true)  {
         }
         //TODO score, z order canavar arkasında olacak
 
-        mainDistrict.addFullPlot("score text",Rectangle(670f / 1280f, 890f / 1280f, 616f / 720f, 676f / 720f),z=40)
+        mainDistrict.addFullPlot("score text",Rectangle(670f / 1280f, 890f / 1280f, 616f / 720f, 676f / 720f),z=40).also {
+            it.element = TextBox("score","0","font/MPLUSRounded1c-Black.ttf",36,colour=Color(223f/255f, 237f/255f, 240f/255f,1f))
+        }
         //TODO score text
 
 
@@ -83,6 +86,13 @@ class GameScene : Scene("game", 0f, true)  {
         for(i in 1..5){
             sockDrawer.add(Sock("S_$i",Gdx.files.internal("socks/S_$i.png"),SockType.SMALL))
         }
+    }
+
+    /** Updates scoreboard
+     *
+     */
+    fun updateScoreboard(n: Int){
+        (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
     }
 
 

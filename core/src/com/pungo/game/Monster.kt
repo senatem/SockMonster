@@ -1,6 +1,7 @@
 package com.pungo.game
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.pungo.modules.uiElements.MultiMediaItem
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.visuals.textureHandling.SingleTexture
@@ -55,7 +56,9 @@ class Monster: MultiMediaItem("Monster") {
     }
 
     init {
-        addElement(PinupImage("sd",SingleTexture(Gdx.files.internal("Sock Monster Body parts/Shadow.png"))))
+        addElement(PinupImage("sd",SingleTexture(Gdx.files.internal("Sock Monster Body parts/Shadow.png")).also {
+            it.recolour(Color(1f,1f,1f,0.8f))
+        }))
         addElement(faces)
         addElement(leftArm)
         addElement(rightArm)
