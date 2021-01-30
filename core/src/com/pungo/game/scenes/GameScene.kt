@@ -92,7 +92,7 @@ class GameScene : Scene("game", 0f, true)  {
     /** Updates scoreboard
      *
      */
-    fun updateScoreboard(n: Int){
+    fun updateScoreboard(n: Int=score){
         (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
     }
 
@@ -145,6 +145,7 @@ class GameScene : Scene("game", 0f, true)  {
                             filled.remove(loc)
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
+                            updateScoreboard()
                             monster.wearSock(it.id)
                             if (monster.clothedNo()==5) {
                                 monster.saveToGallery("attempt$testCounter")
@@ -169,14 +170,15 @@ class GameScene : Scene("game", 0f, true)  {
 
             }
         }
-            val gameTimer = Timer("gameTimer", true)
-            gameTimer.schedule(1000) {
+/*            val gameTimer = Timer("gameTimer", true)
+            gameTimer.schedule(10000) {
                 if(score!=0) {
                     score -= 5
+                    updateScoreboard()
                 }
             }
 
-
+*/
 
     }
 
