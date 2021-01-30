@@ -39,14 +39,28 @@ enum class SockType {
         override fun getWidth() = GetLcs.byPixel(ow*rescale)
         override fun getHeight() = GetLcs.byPixel(oh*rescale)
         override fun getRect(): List<ConvexPolygon> {
-            val l1 = mutableListOf(Pair(50f,234f),Pair(110f,234f),Pair(110f,96f),Pair(50f,96f))
+            val l1 = mutableListOf(Pair(50f,234f),Pair(110f,236f),Pair(110f,96f),Pair(50f,96f))
             val l2 = mutableListOf(Pair(69f,139f),Pair(113f,112f),Pair(47f,3f),Pair(3f,29f))
             val r1 = ConvexPolygon(l1.map{Point(it.first/ow,it.second/oh)}.toMutableList())
             val r2 = ConvexPolygon(l2.map{Point(it.first/ow,it.second/oh)}.toMutableList())
             return listOf(r1,r2)
+            //return listOf(r1)
+        }
+    },TEST{
+        private val ow = 120f
+        private val oh = 120f
+        override fun getWidth() = GetLcs.byPixel(ow*rescale)
+        override fun getHeight() = GetLcs.byPixel(oh*rescale)
+        override fun getRect(): List<ConvexPolygon> {
+            val l1 = mutableListOf(Pair(0f,60f),Pair(120f,60f),Pair(120f,120f),Pair(0f,120f))
+            //val l2 = mutableListOf(Pair(69f,139f),Pair(113f,112f),Pair(47f,3f),Pair(3f,29f))
+            val r1 = ConvexPolygon(l1.map{Point(it.first/ow,it.second/oh)}.toMutableList())
+            //val r2 = ConvexPolygon(l2.map{Point(it.first/ow,it.second/oh)}.toMutableList())
+            //return listOf(r1,r2)
+            return listOf(r1)
         }
     };
-    val rescale = 0.5f
+    val rescale = 2f
     abstract fun getWidth(): LcsVariable
     abstract fun getHeight(): LcsVariable
     abstract fun getRect(): List<ConvexPolygon>
