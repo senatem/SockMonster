@@ -9,8 +9,6 @@ enum class SockType {
     SMALL{
         private val ow = 148f
         private val oh = 148f
-        private val ow = 70f
-        private val oh = 132f
         override fun getScoreMult(): Float {
             return 5f
         }
@@ -28,8 +26,6 @@ enum class SockType {
     MEDIUM{
         private val ow = 208f
         private val oh = 208f
-        private val ow = 96f
-        private val oh = 188f
         override fun getScoreMult(): Float {
             return 3f
         }
@@ -46,8 +42,6 @@ enum class SockType {
     LARGE{
         private val ow = 253f
         private val oh = 252f
-        private val ow = 120f
-        private val oh = 244f
         override fun getScoreMult(): Float {
             return 2f
         }
@@ -73,6 +67,10 @@ enum class SockType {
             //val r2 = ConvexPolygon(l2.map{Point(it.first/ow,it.second/oh)}.toMutableList())
             //return listOf(r1,r2)
             return listOf(r1)
+        }
+
+        override fun getScoreMult(): Float {
+            return 1f
         }
     };
 
