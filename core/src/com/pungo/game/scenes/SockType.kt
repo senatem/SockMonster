@@ -60,7 +60,7 @@ enum class SockType {
             return listOf(r1)
         }
     };
-    val rescale = 2f
+    val rescale = 0.75f
     abstract fun getWidth(): LcsVariable
     abstract fun getHeight(): LcsVariable
     abstract fun getRect(): List<ConvexPolygon>

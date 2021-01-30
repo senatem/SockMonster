@@ -18,7 +18,7 @@ class GameScene : Scene("game", 0f, true)  {
     private val somethingCool = FastGenerator.colouredBox("sc",Color.CHARTREUSE)
 
     private val drumCentre = Pair(mainDistrict.block.width*379/1280,mainDistrict.block.cY)
-    private var radius = mainDistrict.block.height*0.0f
+    private var radius = mainDistrict.block.height*0.3f
     private val spawnCount = 12
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
     // private val spawnQueue = mutableListOf<Int>()
@@ -57,8 +57,8 @@ class GameScene : Scene("game", 0f, true)  {
 
 
         for(i in 1..3){
-            sockDrawer.add(Sock("L_$i",Gdx.files.internal("badlogic.jpg"),SockType.TEST))
-            //sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
+            //sockDrawer.add(Sock("L_$i",Gdx.files.internal("badlogic.jpg"),SockType.TEST))
+            sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
         }
 /*
         for(i in 1..2){
@@ -112,6 +112,7 @@ class GameScene : Scene("game", 0f, true)  {
         super.update()
         var b = false
         socks.forEach {
+            it.relocate(radius,drumCentre)
             if(it.relativeClick()){
                 b = true
             }
@@ -121,15 +122,10 @@ class GameScene : Scene("game", 0f, true)  {
         if(socks.size<1){
             socks.add(
                 sockDrawer.random().also {
-        //            it.relocate(theta[ind],radius,drumCentre)
                     val loc = (0 until spawnCount).filter{index -> index !in filled}.random()
                     filled.add(loc)
-                    //it.theta = Angle(loc/spawnCount.toFloat())
-                    it.relocate(radius,drumCentre)
-                    //it.theta = 3.141f*2f*(loc/spawnCount.toFloat())
                     val speedList = listOf(0.001f, 0.003f, 0.005f, 0.009f, 0.02f, 0.05f)
                     it.speed = speedList.random()
-                    //it.relocate(it.theta,radius,drumCentre)
                     it.modifyClickFunction {
                         if(it in looted) {
                             // game over
@@ -154,10 +150,6 @@ class GameScene : Scene("game", 0f, true)  {
             try {
                 var mt = true
                 socks.forEach {
-                    //it.theta = it.theta + it.speed
-                    //it.relocate(it.theta,radius,drumCentre)
-                    //it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
-                    //it.relocate(radius,drumCentre)
                     it.update()
                     mt = !it.touchHandler(mt)
                 }
@@ -167,6 +159,7 @@ class GameScene : Scene("game", 0f, true)  {
             }
 
         }
+
 
     }
 /*

@@ -23,7 +23,27 @@ class MenuScene : Scene("menu", 0f, true) {
         }
 
         mainDistrict.addFullPlot("go",Rectangle(852f / 1280f, 1230f / 1280f, 258f / 720f, 380f / 720f)).also {
-            it.element = SetButton("go",FastGenerator.colouredBox("c1", Color.YELLOW),FastGenerator.colouredBox("c1", Color.RED)).also { it2->
+            it.element = SetButton("go",SingleTexture(Gdx.files.internal("menu/play_normal.png")),SingleTexture(Gdx.files.internal("menu/play_pressed.png"))).also { it2->
+                it2.clicked = {
+                    LayerManager.scenesToRemove.add(this)
+                    LayerManager.scenesToAdd.add(Pair(GameScene(), true))
+                    dispose()
+                }
+            }
+        }
+
+        mainDistrict.addFullPlot("gallery",Rectangle(852f / 1280f, 1230f / 1280f, 158f / 720f, 280f / 720f)).also {
+            it.element = SetButton("gallery",SingleTexture(Gdx.files.internal("menu/gallery_normal.png")),SingleTexture(Gdx.files.internal("menu/gallery_pressed.png"))).also { it2->
+                it2.clicked = {
+                    LayerManager.scenesToRemove.add(this)
+                    LayerManager.scenesToAdd.add(Pair(GameScene(), true))
+                    dispose()
+                }
+            }
+        }
+
+        mainDistrict.addFullPlot("exit",Rectangle(852f / 1280f, 1230f / 1280f, 58f / 720f, 180f / 720f)).also {
+            it.element = SetButton("exit",SingleTexture(Gdx.files.internal("menu/exit_normal.png")),SingleTexture(Gdx.files.internal("menu/exit_pressed.png"))).also { it2->
                 it2.clicked = {
                     LayerManager.scenesToRemove.add(this)
                     LayerManager.scenesToAdd.add(Pair(GameScene(), true))
