@@ -17,7 +17,7 @@ class GameScene : Scene("game", 0f, true)  {
     var score = 0
     private val somethingCool = FastGenerator.colouredBox("sc",Color.CHARTREUSE)
 
-    private val drumCentre = Pair(mainDistrict.block.cX,mainDistrict.block.cY)
+    private val drumCentre = Pair(mainDistrict.block.width*379/1280,mainDistrict.block.cY)
     private var radius = mainDistrict.block.height*0.0f
     private val spawnCount = 12
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
@@ -31,20 +31,25 @@ class GameScene : Scene("game", 0f, true)  {
     private val baseSockSpeed = Angle(0.1f)
     var testCounter = 0
     init {
-        mainDistrict.addFullPlot("bg").also {
+        mainDistrict.addFullPlot("background",z=1).also {
+
+            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/bg_placeholder.png")))
+        }
+
+        mainDistrict.addFullPlot("bg",z=2).also {
             it.element = FastGenerator.colouredBox("bgc", Color.RED)
         }
 
-        mainDistrict.addFullPlot("drum",  z=20).also {
+        mainDistrict.addFullPlot("drum",  Rectangle(36f/1280f,722f/1280f,17f/720f,703f/720f),z=20).also {
             it.element = PinupImage("drum",SingleTexture(Gdx.files.internal("machine/drum.png")))
 
         }
 
-        mainDistrict.addFullPlot("bathroom",z=10).also {
+        mainDistrict.addFullPlot("bathroom", Rectangle(36f/1280f,722f/1280f,17f/720f,703f/720f),z=10).also {
             it.element = PinupImage("bathroom",SingleTexture(Gdx.files.internal("machine/bathroom.png")))
         }
 
-        mainDistrict.addFullPlot("clothes",z=30).also {
+        mainDistrict.addFullPlot("clothes", Rectangle(-261f/1280f,1019f/1280f,0f,1f), z=30).also {
             it.element = PinupImage("clothes",SingleTexture(Gdx.files.internal("machine/clothes.png"))).also {
                 it.image.recolour(Color(1f,1f,1f,0.3f))
             }
