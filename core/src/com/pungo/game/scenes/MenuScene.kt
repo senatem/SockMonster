@@ -19,10 +19,10 @@ import kotlin.random.Random
 class MenuScene : Scene("menu", 0f, true) {
     init {
         mainDistrict.addFullPlot("bg").also {
-            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("sm.png")))
+            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("menu/bg_flat.png")))
         }
 
-        mainDistrict.addFullPlot("go",Rectangle(0.4f,0.6f,0.2f,0.3f)).also {
+        mainDistrict.addFullPlot("go",Rectangle(852f / 1280f, 1230f / 1280f, 258f / 720f, 380f / 720f)).also {
             it.element = SetButton("go",FastGenerator.colouredBox("c1", Color.YELLOW),FastGenerator.colouredBox("c1", Color.RED)).also { it2->
                 it2.clicked = {
                     LayerManager.scenesToRemove.add(this)
