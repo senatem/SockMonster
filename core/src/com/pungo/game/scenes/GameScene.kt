@@ -15,7 +15,7 @@ import kotlin.math.sin
 
 class GameScene : Scene("game", 0f, true)  {
     var score = 0
-    private val somethingCool = FastGenerator.colouredBox("sc",Color.CHARTREUSE)
+    private val somethingCool = FastGenerator.colouredBox("sc",Color(0f,1f,0f,0.2f))
 
     private val drumCentre = Pair(mainDistrict.block.width*379/1280,mainDistrict.block.cY)
     private var radius = mainDistrict.block.height*0.3f
@@ -57,20 +57,18 @@ class GameScene : Scene("game", 0f, true)  {
 
 
         for(i in 1..3){
-            //sockDrawer.add(Sock("L_$i",Gdx.files.internal("badlogic.jpg"),SockType.TEST))
             sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
         }
-/*
+
         for(i in 1..2){
             sockDrawer.add(Sock("M_$i",Gdx.files.internal("socks/M_$i.png"),SockType.MEDIUM))
         }
 
         for(i in 1..5){
-            //sockDrawer.add(Sock("S_$i",Gdx.files.internal("socks/S_$i.png"),SockType.SMALL))
-            sockDrawer.add(Sock("S_$i",Gdx.files.internal("badlogic.jpg"),SockType.SMALL))
+            sockDrawer.add(Sock("S_$i",Gdx.files.internal("socks/S_$i.png"),SockType.SMALL))
         }
 
- */
+
 
     }
 
@@ -88,25 +86,11 @@ class GameScene : Scene("game", 0f, true)  {
         socks.forEach {
             it.draw(batch)
         }
-        for (i in 0..200){
-            for (j in 0..200){
-                val p = mainDistrict.block.getPointFromRatio(i/200f,j/200f)
-                socks.forEach {
-                    if(it.relativeClick(p.first,p.second)){
-                        somethingCool.resize(mainDistrict.block.width/200,mainDistrict.block.height/200)
-                        somethingCool.relocate(p.first,p.second)
-                        somethingCool.draw(batch)
-                    }
-
-                }
-
-            }
-        }
-
-
-
+        // highlightClicks(batch)
 
     }
+
+
 
     override fun update() {
         super.update()
@@ -173,4 +157,26 @@ class GameScene : Scene("game", 0f, true)  {
     }
 
  */
+
+    /** If this function is called, the hitbox of the socks are highlighted
+     *
+     */
+    private fun highlightClicks(batch: SpriteBatch){
+        for (i in 0..200){
+            for (j in 0..200){
+                val p = mainDistrict.block.getPointFromRatio(i/200f,j/200f)
+                socks.forEach {
+                    if(it.relativeClick(p.first,p.second)){
+                        somethingCool.resize(mainDistrict.block.width/200,mainDistrict.block.height/200)
+                        somethingCool.relocate(p.first,p.second)
+                        somethingCool.draw(batch)
+                    }
+
+                }
+
+            }
+        }
+    }
+
+
 }
