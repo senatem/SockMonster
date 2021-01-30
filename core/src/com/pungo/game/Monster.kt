@@ -6,7 +6,9 @@ import com.pungo.modules.uiElements.MultiMediaItem
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 
+
 class Monster: MultiMediaItem("Monster") {
+    private val parts = mutableMapOf<String, String>("leftArm" to "default", "rightArm" to "default", "leftLeg" to "default", "rightLeg" to "default", "tummy" to "default")
     val faces = MultiMediaItem("faces").also {
         it.addElement(PinupImage("1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
         it.addElement(PinupImage("2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/2.png"))))
@@ -65,7 +67,6 @@ class Monster: MultiMediaItem("Monster") {
         addElement(rightLeg)
         addElement(leftLeg)
         addElement(tummy)
-
     }
 
     /** Returns the number of clothes worn
@@ -85,6 +86,9 @@ class Monster: MultiMediaItem("Monster") {
         listOf(leftArm,rightArm, leftLeg, rightLeg, tummy).forEach {
             it.invisibleExcept("default")
         }
+        for (part in parts) {
+            parts[part.key] = "default"
+        }
     }
 
     /** Wears a sock by id
@@ -94,19 +98,23 @@ class Monster: MultiMediaItem("Monster") {
         when (id) {
             in WornSocks.tummyList -> {
                 tummy.invisibleExcept(id)
+                parts["tummy"] = id
             }
             in WornSocks.leftLegList -> {
                 leftLeg.invisibleExcept(id)
+                parts["leftLeg"] = id
             }
             in WornSocks.rightLegList -> {
                 rightLeg.invisibleExcept(id)
+                parts["rightLeg"] = id
             }
-
             in WornSocks.leftArmList -> {
                 leftArm.invisibleExcept(id)
+                parts["leftArm"] = id
             }
             in WornSocks.rightArmList -> {
                 rightArm.invisibleExcept(id)
+                parts["rightArm"] = id
             }
             else -> {
                 throw Exception("I cant wear $id")
@@ -116,13 +124,16 @@ class Monster: MultiMediaItem("Monster") {
         //clothedNo()
     }
 
+    fun saveToGallery(path: String){
+        val monster = Gdx.files.local(path)
+        monster.writeString(parts.toString(), false)
+    }
+
     object WornSocks{
         val tummyList = listOf("M_1","S_4")
         val leftLegList =  listOf("L_2","S_1")
         val rightLegList = listOf("L_3","M_2")
         val leftArmList = listOf("S_2","S_3")
         val rightArmList = listOf("L_1","S_5")
-
-
     }
 }
