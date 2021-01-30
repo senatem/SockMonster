@@ -130,9 +130,9 @@ class Monster: MultiMediaItem("Monster") {
     }
 
     object WornSocks{
-        val tummyList = listOf("M_1","S_4")
+        val tummyList = listOf("M_1","S_4","M_4")
         val leftLegList =  listOf("L_2","S_1")
-        val rightLegList = listOf("L_3","M_2")
+        val rightLegList = listOf("L_3","M_2","M_3")
         val leftArmList = listOf("S_2","S_3")
         val rightArmList = listOf("L_1","S_5")
     }
