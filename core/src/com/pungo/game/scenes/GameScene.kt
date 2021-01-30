@@ -56,7 +56,7 @@ class GameScene : Scene("game", 0f, true)  {
         super.update()
         var b = false
         socks.forEach {
-            if(it.RelativeClick()){
+            if(it.relativeClick()){
                 b = true
             }
         }

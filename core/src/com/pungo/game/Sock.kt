@@ -14,31 +14,50 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Sock(val id: String, path: FileHandle, val sockType: SockType, clickFunction: ()-> Unit={}) {
+class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFunction: ()-> Unit={}) {
     val w: LcsVariable = sockType.getWidth()
     val h: LcsVariable= sockType.getHeight()
     var cX = GetLcs.ofZero()
     var cY = GetLcs.ofZero()
     var theta = 0f
-    val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
-        it.clicked = clickFunction
+    var held = false
+    //val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
+    //    it.clicked = clickFunction
+    //}
+    val image = PinupImage("sb",SingleTexture(path)).also {
+        it.resize(w,h)
     }
-    val image = PinupImage("sb",SingleTexture(path))
 
     fun draw(batch: SpriteBatch){
-        sb.draw(batch)
+        image.draw(batch)
+        //sb.draw(batch)
     }
 
     fun relocate(x: LcsVariable,y: LcsVariable){
-        sb.relocate(x,y)
+        image.relocate(x,y)
+        //sb.relocate(x,y)
     }
 
     fun update(){
-        sb.update()
+        //sb.update()
+        image.update()
     }
 
-    fun touchHandler(){
-        sb.touchHandler(true)
+    fun touchHandler(mayTouch: Boolean=true){
+        if(mayTouch&&relativeClick()){
+            if(Gdx.input.justTouched()){
+                held = true
+            }
+
+            if((!Gdx.input.isTouched)&&held){
+                held = false
+                clickFunction()
+                println("hey")
+            }
+        }else{
+            held=false
+        }
+        //sb.touchHandler(true)
     }
 
     fun relocate(th: Float, radius: LcsVariable, drumCentre: Pair<LcsVariable,LcsVariable>){
@@ -50,10 +69,11 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, clickFuncti
     }
 
     fun modifyClickFunction(clickFunction: () -> Unit){
-        sb.clicked = clickFunction
+        this.clickFunction = clickFunction
+        //sb.clicked = clickFunction
     }
 
-    fun RelativeClick(): Boolean {
+    fun relativeClick(): Boolean {
         val rect = GetLcsRect.byParameters(w,h,cX,cY)
         val rX = rect.getWidthRatio(GetLcs.ofX())
         val rY = rect.getHeightRatio(GetLcs.ofY())
