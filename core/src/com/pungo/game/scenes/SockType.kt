@@ -6,6 +6,7 @@ import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.lcsModule.LcsVariable
 
 enum class SockType {
+
     SMALL{
         private val ow = 148f
         private val oh = 148f
@@ -17,8 +18,8 @@ enum class SockType {
         override fun getRect(): List<ConvexPolygon> {
             val l1 = mutableListOf(Pair(49f,138f),Pair(79f,138f),Pair(79f,68f),Pair(49f,68f))
             val l2 = mutableListOf(Pair(57f,89f),Pair(80f,78f),Pair(48f,22f),Pair(25f,36f))
-            val r1 = ConvexPolygon(l1.map{Point(it.first/ow,it.second/oh)}.toMutableList())
-            val r2 = ConvexPolygon(l2.map{Point(it.first/ow,it.second/oh)}.toMutableList())
+            val r1 = ConvexPolygon(l1.map{Point(it.first/ow*hitboxMult,it.second/oh*hitboxMult)}.toMutableList())
+            val r2 = ConvexPolygon(l2.map{Point(it.first/ow*hitboxMult,it.second/oh*hitboxMult)}.toMutableList())
             return listOf(r1,r2)
 
         }
@@ -34,8 +35,8 @@ enum class SockType {
         override fun getRect(): List<ConvexPolygon> {
             val l1 = mutableListOf(Pair(67f,198f),Pair(112f,198f),Pair(112f,96f),Pair(67f,96f))
             val l2 = mutableListOf(Pair(77f,121f),Pair(110f,101f),Pair(64f,24f),Pair(31f,44f))
-            val r1 = ConvexPolygon(l1.map{Point(it.first/ow,it.second/oh)}.toMutableList())
-            val r2 = ConvexPolygon(l2.map{Point(it.first/ow,it.second/oh)}.toMutableList())
+            val r1 = ConvexPolygon(l1.map{Point(it.first/ow*hitboxMult,it.second/oh*hitboxMult)}.toMutableList())
+            val r2 = ConvexPolygon(l2.map{Point(it.first/ow*hitboxMult,it.second/oh*hitboxMult)}.toMutableList())
             return listOf(r1,r2)
         }
     },
@@ -50,8 +51,8 @@ enum class SockType {
         override fun getRect(): List<ConvexPolygon> {
             val l1 = mutableListOf(Pair(89f,242f),Pair(149f,242f),Pair(149f,104f),Pair(89f,104f))
             val l2 = mutableListOf(Pair(108f,147f),Pair(152f,121f),Pair(89f,11f),Pair(42f,37f))
-            val r1 = ConvexPolygon(l1.map{Point(it.first/ow,it.second/oh)}.toMutableList())
-            val r2 = ConvexPolygon(l2.map{Point(it.first/ow,it.second/oh)}.toMutableList())
+            val r1 = ConvexPolygon(l1.map{Point(it.first/ow*hitboxMult ,it.second/oh*hitboxMult )}.toMutableList())
+            val r2 = ConvexPolygon(l2.map{Point(it.first/ow*hitboxMult ,it.second/oh*hitboxMult )}.toMutableList())
             return listOf(r1,r2)
             //return listOf(r1)
         }
@@ -76,6 +77,8 @@ enum class SockType {
 
 
     val rescale = 0.75f
+    protected val hitboxMult = 1.12f
+
     abstract fun getWidth(): LcsVariable
     abstract fun getHeight(): LcsVariable
     abstract fun getRect(): List<ConvexPolygon>
