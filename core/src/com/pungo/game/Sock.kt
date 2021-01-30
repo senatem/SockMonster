@@ -43,8 +43,8 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
         image.update()
     }
 
-    fun touchHandler(mayTouch: Boolean=true){
-        if(mayTouch&&relativeClick()){
+    fun touchHandler(mayTouch: Boolean=true): Boolean{
+        return if(mayTouch&&relativeClick()){
             if(Gdx.input.justTouched()){
                 held = true
             }
@@ -54,8 +54,10 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
                 clickFunction()
                 println("hey")
             }
+            true
         }else{
             held=false
+            false
         }
         //sb.touchHandler(true)
     }
