@@ -11,6 +11,8 @@ import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -32,6 +34,7 @@ class GameScene : Scene("game", 0f, true)  {
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
     var testCounter = 0
+    var lowerScore =false
     init {
         mainDistrict.addFullPlot("background",z=1).also {
 
@@ -145,6 +148,11 @@ class GameScene : Scene("game", 0f, true)  {
             }
 
         }
+            val gameTimer = Timer("gameTimer", true)
+            gameTimer.schedule(1000) {
+                score -= 5
+            }
+
 
 
     }

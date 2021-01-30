@@ -5,9 +5,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.scenes.MenuScene
+import com.pungo.game.scenes.GameScene
 import com.pungo.game.scenes.StartupScreen
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.scenes.LayerManager
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.concurrent.fixedRateTimer
+import kotlin.concurrent.timer
 
 
 class Main : ApplicationAdapter() {
@@ -16,13 +21,15 @@ class Main : ApplicationAdapter() {
 
     override fun create() {
         GetLcs.lcsInitialize()
-        GetLcs.lcsInitialize(1280,720)
+        GetLcs.lcsInitialize(1280, 720)
         Gdx.input.inputProcessor = inputProcessor
 
         batch = SpriteBatch()
         LayerManager.add(MenuScene(), true)
-     //   addCursor()
+        //   addCursor()
     }
+
+
 /*
     private fun addCursor() {
         val pixmap = Pixmap(Gdx.files.internal("visuals/cursor32.png"))
