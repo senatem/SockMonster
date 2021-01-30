@@ -15,6 +15,7 @@ import kotlin.math.sin
 class Sock(val id: String, path: FileHandle, sockType: SockType, clickFunction: ()-> Unit={}) {
     val w: LcsVariable = sockType.getWidth()
     val h: LcsVariable= sockType.getHeight()
+    var theta = 0f
     val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
         it.clicked = clickFunction
     }
