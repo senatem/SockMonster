@@ -13,6 +13,8 @@ import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -33,6 +35,7 @@ class GameScene : Scene("game", 0f, true)  {
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
     var testCounter = 0
+    var lowerScore =false
     init {
         mainDistrict.addFullPlot("background",z=1).also {
 
@@ -148,7 +151,7 @@ class GameScene : Scene("game", 0f, true)  {
                                 testCounter++
                                 monster.undress()
                                 looted.clear()
-                                score += 5000
+                                score += 500
                             }
                         }
                     }
@@ -166,6 +169,15 @@ class GameScene : Scene("game", 0f, true)  {
 
             }
         }
+            val gameTimer = Timer("gameTimer", true)
+            gameTimer.schedule(1000) {
+                if(score!=0) {
+                    score -= 5
+                }
+            }
+
+
+
     }
 
     /* If this function is called, the hitbox of the socks are highlighted

@@ -36,7 +36,7 @@ class MenuScene : Scene("menu", 0f, true) {
             it.element = SetButton("gallery",SingleTexture(Gdx.files.internal("menu/gallery_normal.png")),SingleTexture(Gdx.files.internal("menu/gallery_pressed.png"))).also { it2->
                 it2.clicked = {
                     LayerManager.scenesToRemove.add(this)
-                    LayerManager.scenesToAdd.add(Pair(GameScene(), true))
+                    LayerManager.scenesToAdd.add(Pair(GalleryScene(), true))
                     dispose()
                 }
             }
