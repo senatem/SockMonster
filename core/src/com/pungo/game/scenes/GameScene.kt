@@ -40,9 +40,9 @@ class GameScene : Scene("game", 0f, true)  {
             it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/game_bg.png")))
         }
 
-        mainDistrict.addFullPlot("bg",z=2).also {
-            it.element = FastGenerator.colouredBox("bgc", Color.RED)
-        }
+        //mainDistrict.addFullPlot("bg",z=2).also {
+        //    it.element = FastGenerator.colouredBox("bgc", Color.RED)
+        //}
 
         mainDistrict.addFullPlot("drum",  Rectangle(36f/1280f,722f/1280f,17f/720f,703f/720f),z=20).also {
             it.element = PinupImage("drum",SingleTexture(Gdx.files.internal("machine/drum.png")))
@@ -114,7 +114,7 @@ class GameScene : Scene("game", 0f, true)  {
                 b = true
             }
         }
-        mainDistrict.findPlot("bg").element!!.visible = b
+        // mainDistrict.findPlot("bg").element!!.visible = b
 
         if(socks.size<1){
             socks.add(

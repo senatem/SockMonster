@@ -7,12 +7,12 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 
 class Monster: MultiMediaItem("Monster") {
     val faces = MultiMediaItem("faces").also {
-        it.addElement(PinupImage("head1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
-        it.addElement(PinupImage("head2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/2.png"))))
-        it.addElement(PinupImage("head3",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/3.png"))))
-        it.addElement(PinupImage("head4",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/4.png"))))
-        it.addElement(PinupImage("head5",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/5.png"))))
-        it.invisibleExcept("head1")
+        it.addElement(PinupImage("1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
+        it.addElement(PinupImage("2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/2.png"))))
+        it.addElement(PinupImage("3",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/3.png"))))
+        it.addElement(PinupImage("4",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/4.png"))))
+        it.addElement(PinupImage("5",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/5.png"))))
+        it.invisibleExcept("1")
     }
     val leftArm = MultiMediaItem("leftArm").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/default.png"))))
@@ -65,21 +65,21 @@ class Monster: MultiMediaItem("Monster") {
 
     }
 
-    /** Returns true if the monster has clothes everywhere
+    /** Returns the number of clothes worn
      *
      */
-    fun allClothed(): Boolean {
-        var notDefault = true
-        listOf(leftArm,rightArm, leftLeg, rightArm, tummy).forEach {
-            if (it.findElement("default")!!.visible){
-                notDefault = false
+    fun clothedNo(): Int {
+        var clothes = 0
+        listOf(leftArm,rightArm, leftLeg, rightLeg, tummy).forEach {
+            if (!it.findElement("default")!!.visible){
+                clothes += 1
             }
         }
-        return notDefault
+        return clothes
     }
 
     fun undress(){
-        listOf(leftArm,rightArm, leftLeg, rightArm, tummy).forEach {
+        listOf(leftArm,rightArm, leftLeg, rightLeg, tummy).forEach {
             it.invisibleExcept("default")
         }
     }
@@ -109,6 +109,8 @@ class Monster: MultiMediaItem("Monster") {
                 throw Exception("I cant wear $id")
             }
         }
+        faces.invisibleExcept("${clothedNo()+1}")
+        //clothedNo()
     }
 
     object WornSocks{
