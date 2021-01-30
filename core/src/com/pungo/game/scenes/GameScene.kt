@@ -8,15 +8,17 @@ import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.modules.basic.geometry.Angle
 import com.pungo.modules.basic.geometry.Rectangle
+import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
-import java.util.*
+import kotlin.random.Random
 import kotlin.concurrent.schedule
 import kotlin.math.cos
 import kotlin.math.roundToInt
+import kotlin.math.sin
 import kotlin.math.sin
 
 class GameScene : Scene("game", 0f, true)  {
@@ -34,8 +36,8 @@ class GameScene : Scene("game", 0f, true)  {
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
+
     var testCounter = 0
-    var lowerScore =false
     init {
         mainDistrict.addFullPlot("background",z=1).also {
 
@@ -131,13 +133,31 @@ class GameScene : Scene("game", 0f, true)  {
                 sockDrawer.random().also {
                     val loc = (0 until spawnCount).filter{index -> index !in filled}.random()
                     filled.add(loc)
+                    val drumMiddle = GetLcs.byPixel(240)
+                    val drumHalfRange = GetLcs.byPixel(100)
+                      it.theta = Angle(((0..360).random()).toFloat(),Angle.Type.DEG)
+
+                    when (it.sockType) {
+                        SockType.LARGE -> {
+                            val n = (195f + 5f * (Random.nextFloat() * 2 - 1))
+                            it.relocate(GetLcs.byPixel(n),drumCentre)
+                        }
+                        SockType.MEDIUM -> {
+                            val n = (225f + 15f * (Random.nextFloat() * 2 - 1))
+                            it.relocate(GetLcs.byPixel(n),drumCentre)
+                        }
+                        else -> {
+                            val n = (230f + 40f * (Random.nextFloat() * 2 - 1))
+                            it.relocate(GetLcs.byPixel(n),drumCentre)
+                        }
+                    }
                     val speedList = listOf(0.001f, 0.003f, 0.005f, 0.009f, 0.02f, 0.05f)
                     it.speed = speedList.random()
                     it.modifyClickFunction {
                         if(it in looted) {
                             // game over
                             println(ScoreManager.listScores())
-                            score = 0
+                            //score = 0
                             looted.clear()
                             socks.clear()
                             filled.clear()
@@ -146,7 +166,7 @@ class GameScene : Scene("game", 0f, true)  {
                             socks.remove(it)
                             filled.remove(loc)
                             looted.add(it)
-                            score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
+                            score+=(10f*it.sockType.getScoreMult()*significant(it.speed,1)).roundToInt()
                             updateScoreboard()
                             monster.wearSock(it.id)
                             if (monster.clothedNo()==5) {
@@ -155,6 +175,7 @@ class GameScene : Scene("game", 0f, true)  {
                                 monster.undress()
                                 looted.clear()
                                 score += 500
+                                updateScoreboard()
                             }
                         }
                     }
@@ -172,9 +193,9 @@ class GameScene : Scene("game", 0f, true)  {
 
             }
         }
-/*            val gameTimer = Timer("gameTimer", true)
+  /*          val gameTimer = Timer("gameTimer", true)
             gameTimer.schedule(10000) {
-                if(score!=0) {
+                if(score>=5) {
                     score -= 5
                     updateScoreboard()
                 }
@@ -204,5 +225,15 @@ class GameScene : Scene("game", 0f, true)  {
         }
     }
 
+    private fun significant(x: Float, n: Int): Float {
+        var res = x
+        for (i in 0..n) {
+            res *= 10
+        }
+        for (i in 0..n) {
+            res /= 10
+        }
+        return res
+    }
 
 }

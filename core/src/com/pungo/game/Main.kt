@@ -26,9 +26,11 @@ class Main : ApplicationAdapter() {
         GetLcs.lcsInitialize(1280,720)
         Gdx.input.inputProcessor = inputProcessor
 
+
         batch = SpriteBatch()
         LayerManager.add(MenuScene(), true)
      //   addCursor()
+
     }
 
     private fun addCursor() {
