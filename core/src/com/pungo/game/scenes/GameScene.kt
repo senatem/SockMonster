@@ -68,8 +68,10 @@ class GameScene : Scene("game", 0f, true)  {
 
         mainDistrict.addFullPlot("monsterGlow",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=45).also {
             it.element = SetButton("mg",
-                FastGenerator.colouredBox("mg",Color(1f,1f,0f,0.5f)),
-                FastGenerator.colouredBox("mg",Color(0.5f,0.5f,0f,0.5f))).also {
+                SingleTexture(Gdx.files.internal("Sock Monster Body parts/monster_glow.png")),
+                SingleTexture(Gdx.files.internal("Sock Monster Body parts/monster_glow.png")).also {
+                    it.recolour(Color(0.8f,0.8f,0.8f,1f))
+                }).also {
                 it.clicked = {
                     monster.saveToGallery("attempt$testCounter")
                     testCounter++
