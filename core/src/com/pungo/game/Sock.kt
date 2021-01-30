@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.scenes.SockType
-import com.pungo.modules.basic.geometry.Angle
 import com.pungo.modules.basic.geometry.Point
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.lcsModule.GetLcsRect
@@ -15,12 +14,14 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFunction: ()-> Unit={}, val offsetAngle: Angle = Angle(0f)) {
+class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFunction: ()-> Unit={}) {
     val w: LcsVariable = sockType.getWidth()
     val h: LcsVariable= sockType.getHeight()
     var cX = GetLcs.ofZero()
     var cY = GetLcs.ofZero()
     var theta = Angle(0f)
+    var theta = 0f
+    var speed = 0f
     var held = false
     //val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
     //    it.clicked = clickFunction
@@ -72,7 +73,6 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
         cX = drumCentre.first + dx
         cY = drumCentre.second + dy
         relocate(cX,cY)
-        //relocate(drumCentre.first, drumCentre.second)
     }
 
     fun modifyClickFunction(clickFunction: () -> Unit){

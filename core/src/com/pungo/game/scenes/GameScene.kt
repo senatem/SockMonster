@@ -113,8 +113,7 @@ class GameScene : Scene("game", 0f, true)  {
         }
         mainDistrict.findPlot("bg").element!!.visible = b
 
-        if(socks.size<1){
-        //    val ind = spawnQueue.removeFirst()
+        if(socks.size<9){
             socks.add(
                 sockDrawer.random().also {
         //            it.relocate(theta[ind],radius,drumCentre)
@@ -122,6 +121,10 @@ class GameScene : Scene("game", 0f, true)  {
                     filled.add(loc)
                     it.theta = Angle(loc/spawnCount.toFloat())
                     it.relocate(radius,drumCentre)
+                    it.theta = 3.141f*2f*(loc/spawnCount.toFloat())
+                    val speedList = listOf(0.001f, 0.003f, 0.005f, 0.009f, 0.02f, 0.05f)
+                    it.speed = speedList.random()
+                    it.relocate(it.theta,radius,drumCentre)
                     it.modifyClickFunction {
                         if(it in looted) {
                             // game over
@@ -146,6 +149,8 @@ class GameScene : Scene("game", 0f, true)  {
             try {
                 var mt = true
                 socks.forEach {
+                    it.theta = it.theta + it.speed
+                    it.relocate(it.theta,radius,drumCentre)
                     //it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
                     //it.relocate(radius,drumCentre)
                     it.update()
@@ -164,6 +169,7 @@ class GameScene : Scene("game", 0f, true)  {
         try {
             spawnQueue.add(if(unique) (0 until spawnCount).filter{it !in spawnQueue}.random() else (0 until spawnCount).random() )
         }catch (e: Exception){
+            } catch (e: Exception){
 
         }
     }
