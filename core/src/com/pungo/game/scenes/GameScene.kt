@@ -3,6 +3,7 @@ package com.pungo.game.scenes
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.modules.basic.geometry.Angle
@@ -55,6 +56,10 @@ class GameScene : Scene("game", 0f, true)  {
             it.element = PinupImage("clothes",SingleTexture(Gdx.files.internal("machine/clothes.png"))).also {
                 it.image.recolour(Color(1f,1f,1f,0.3f))
             }
+        }
+
+        mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
+            it.element = Monster()
         }
 
 

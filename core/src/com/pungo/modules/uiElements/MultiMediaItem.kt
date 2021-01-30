@@ -8,7 +8,7 @@ import com.pungo.modules.visuals.OmniVisual
 /** Also called the Damla's item, this item contains a multitude of elements and display patterns can be altered by various commands
  *
  */
-class MultiMediaItem(id: String) : UiElement(id) {
+open class MultiMediaItem(id: String) : UiElement(id) {
     private var faceOther = false
 
     /** This guy adds an element with desired location and size qualities

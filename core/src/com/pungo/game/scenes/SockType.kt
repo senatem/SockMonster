@@ -71,6 +71,10 @@ enum class SockType {
             //return listOf(r1,r2)
             return listOf(r1)
         }
+
+        override fun getScoreMult(): Float {
+            return 1f
+        }
     };
 
 
