@@ -151,7 +151,7 @@ class GameScene : Scene("game", 0f, true)  {
                                 testCounter++
                                 monster.undress()
                                 looted.clear()
-                                score += 5000
+                                score += 500
                             }
                         }
                     }
@@ -171,7 +171,9 @@ class GameScene : Scene("game", 0f, true)  {
         }
             val gameTimer = Timer("gameTimer", true)
             gameTimer.schedule(1000) {
-                score -= 5
+                if(score!=0) {
+                    score -= 5
+                }
             }
 
 
