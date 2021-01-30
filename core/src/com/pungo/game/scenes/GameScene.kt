@@ -101,7 +101,7 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed)
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
         socks.forEach {
-            it.theta = it.theta + Angle(drumSpeed,Angle.Type.DEG)
+            it.theta = it.theta + Angle(it.speed,Angle.Type.DEG)
         }
         socks.forEach {
             it.draw(batch)

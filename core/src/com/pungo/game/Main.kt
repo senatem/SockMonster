@@ -2,7 +2,9 @@ package com.pungo.game
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Cursor
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.scenes.MenuScene
 import com.pungo.game.scenes.StartupScreen
@@ -21,18 +23,18 @@ class Main : ApplicationAdapter() {
 
         batch = SpriteBatch()
         LayerManager.add(MenuScene(), true)
-     //   addCursor()
+        //addCursor()
     }
-/*
+
     private fun addCursor() {
-        val pixmap = Pixmap(Gdx.files.internal("visuals/cursor32.png"))
+        val pixmap = Pixmap(Gdx.files.internal("Sock Monster Body parts/HandOpen.png"))
         val xHotspot = pixmap.width / 2
         val yHotspot = pixmap.height / 2
         val cursor: Cursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot)
         Gdx.graphics.setCursor(cursor)
         pixmap.dispose()
     }
- */
+
 
     override fun render() {
         Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 0 / 255f, 1f)
