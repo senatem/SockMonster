@@ -45,7 +45,7 @@ class MenuScene : Scene("menu", 0f, true) {
         mainDistrict.addFullPlot("exit",Rectangle(1026f / 1280f, 1230f / 1280f, 36f / 720f, 136f / 720f)).also {
             it.element = SetButton("exit",SingleTexture(Gdx.files.internal("menu/exit_normal.png")),SingleTexture(Gdx.files.internal("menu/exit_pressed.png"))).also { it2->
                 it2.clicked = {
-                    SfxPlayer.play("click")
+                    //SfxPlayer.play("click")
                     dispose()
                     Gdx.app.exit()
                 }
