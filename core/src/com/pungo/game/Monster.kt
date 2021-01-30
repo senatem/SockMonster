@@ -10,12 +10,13 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 class Monster: MultiMediaItem("Monster") {
     private val parts = mutableMapOf<String, String>("leftArm" to "default", "rightArm" to "default", "leftLeg" to "default", "rightLeg" to "default", "tummy" to "default")
     val faces = MultiMediaItem("faces").also {
+        it.addElement(PinupImage("0",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/0.png"))))
         it.addElement(PinupImage("1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
         it.addElement(PinupImage("2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/2.png"))))
         it.addElement(PinupImage("3",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/3.png"))))
         it.addElement(PinupImage("4",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/4.png"))))
         it.addElement(PinupImage("5",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/5.png"))))
-        it.invisibleExcept("1")
+        it.invisibleExcept("0")
     }
     val leftArm = MultiMediaItem("leftArm").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/default.png"))))
@@ -89,6 +90,7 @@ class Monster: MultiMediaItem("Monster") {
         for (part in parts) {
             parts[part.key] = "default"
         }
+        faces.invisibleExcept("0")
     }
 
     /** Wears a sock by id
@@ -120,7 +122,7 @@ class Monster: MultiMediaItem("Monster") {
                 throw Exception("I cant wear $id")
             }
         }
-        faces.invisibleExcept("${clothedNo()+1}")
+        faces.invisibleExcept("${clothedNo()}")
         //clothedNo()
     }
 
@@ -130,9 +132,9 @@ class Monster: MultiMediaItem("Monster") {
     }
 
     object WornSocks{
-        val tummyList = listOf("M_1","S_4")
+        val tummyList = listOf("M_1","S_4","M_4")
         val leftLegList =  listOf("L_2","S_1")
-        val rightLegList = listOf("L_3","M_2")
+        val rightLegList = listOf("L_3","M_2","M_3")
         val leftArmList = listOf("S_2","S_3")
         val rightArmList = listOf("L_1","S_5")
     }

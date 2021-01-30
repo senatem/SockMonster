@@ -6,12 +6,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
+import com.pungo.game.SockMonsterCursor
 import com.pungo.modules.basic.geometry.Angle
+import com.pungo.modules.basic.geometry.FastGeometry
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.lcsModule.GetLcs
+import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
+import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.random.Random
@@ -24,6 +28,7 @@ import kotlin.math.sin
 class GameScene : Scene("game", 0f, true)  {
     var score = 0
     private val somethingCool = FastGenerator.colouredBox("sc",Color(0f,1f,0f,0.2f))
+    var grabbyCounter = 0f
 
     private val drumCentre = Pair(mainDistrict.block.width*379/1280,mainDistrict.block.cY)
     private var radius = mainDistrict.block.height*0.3f
@@ -59,12 +64,29 @@ class GameScene : Scene("game", 0f, true)  {
 
         mainDistrict.addFullPlot("clothes", Rectangle(-261f/1280f,1019f/1280f,0f,1f), z=30).also {
             it.element = PinupImage("clothes",SingleTexture(Gdx.files.internal("machine/clothes.png"))).also {
-                it.image.recolour(Color(1f,1f,1f,0.3f))
+                it.image.recolour(Color(1f,1f,1f,1f))
             }
         }
 
         mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
             it.element = monster
+        }
+
+        mainDistrict.addFullPlot("monsterGlow",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=35).also {
+            it.element = SetButton("mg",
+                SingleTexture(Gdx.files.internal("Sock Monster Body parts/monster_glow.png")),
+                SingleTexture(Gdx.files.internal("Sock Monster Body parts/monster_glow.png")).also {
+                    it.recolour(Color(0.8f,0.8f,0.8f,1f))
+                }).also {
+                it.clicked = {
+                    monster.saveToGallery("attempt$testCounter")
+                    testCounter++
+                    monster.undress()
+                    looted.clear()
+                    score += 500
+                }
+            }
+            it.visible = false
         }
 
         mainDistrict.addFullPlot("score",Rectangle(642f / 1280f, 932f / 1280f, 576 / 720f, 703f / 720f),z=40).also {
@@ -77,12 +99,24 @@ class GameScene : Scene("game", 0f, true)  {
         }
         //TODO score text
 
+        mainDistrict.addFullPlot("back", Rectangle(14f / 1280f, 184f / 1280f, 616f / 720f, 702f / 720f), z=100).also {
+            it.element = SetButton("back",
+                SingleTexture(Gdx.files.internal("gallery/back_normal.png")),
+                SingleTexture(Gdx.files.internal("gallery/back_pressed.png"))).also { it2 ->
+                it2.clicked = {
+                    LayerManager.scenesToRemove.add(this)
+                    LayerManager.scenesToAdd.add(Pair(MenuScene(), true))
+                    dispose()
+                }
+            }
+        }
+
 
         for(i in 1..3){
             sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
         }
 
-        for(i in 1..2){
+        for(i in 1..4){
             sockDrawer.add(Sock("M_$i",Gdx.files.internal("socks/M_$i.png"),SockType.MEDIUM))
         }
 
@@ -113,6 +147,7 @@ class GameScene : Scene("game", 0f, true)  {
         socks.forEach {
             it.draw(batch)
         }
+        //highlightClicks(batch)
     }
 
 
@@ -126,6 +161,11 @@ class GameScene : Scene("game", 0f, true)  {
                 b = true
             }
         }
+        if(b){
+            grabby()
+        }
+        mainDistrict.findPlot("monsterGlow").visible = monster.clothedNo()==5
+
         // mainDistrict.findPlot("bg").element!!.visible = b
 
         if(socks.size<1){
@@ -157,7 +197,7 @@ class GameScene : Scene("game", 0f, true)  {
                         if(it in looted) {
                             // game over
                             println(ScoreManager.listScores())
-                            //score = 0
+                            score = 0
                             looted.clear()
                             socks.clear()
                             filled.clear()
@@ -169,6 +209,7 @@ class GameScene : Scene("game", 0f, true)  {
                             score+=(10f*it.sockType.getScoreMult()*significant(it.speed,1)).roundToInt()
                             updateScoreboard()
                             monster.wearSock(it.id)
+                            /*
                             if (monster.clothedNo()==5) {
                                 monster.saveToGallery("attempt$testCounter")
                                 testCounter++
@@ -177,6 +218,8 @@ class GameScene : Scene("game", 0f, true)  {
                                 score += 500
                                 updateScoreboard()
                             }
+
+                             */
                         }
                     }
                 }
@@ -235,5 +278,16 @@ class GameScene : Scene("game", 0f, true)  {
         }
         return res
     }
+
+    private fun grabby(){
+        grabbyCounter += Gdx.graphics.deltaTime
+        if(grabbyCounter<0.2f){
+            Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
+        }else{
+            Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
+        }
+        grabbyCounter %= 0.4f
+    }
+
 
 }
