@@ -19,8 +19,6 @@ class GameScene : Scene("game", 0f, true)  {
     private val drumCentre = Pair(mainDistrict.block.cX,mainDistrict.block.cY)
     private var radius = mainDistrict.block.height*0.4f
     private val spawnCount = 12
-    var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
-    // private val spawnQueue = mutableListOf<Int>()
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
@@ -55,7 +53,6 @@ class GameScene : Scene("game", 0f, true)  {
         for(i in 1..5){
             sockDrawer.add(Sock("S_$i",Gdx.files.internal("socks/S_$i.png"),SockType.SMALL))
         }
-
     }
 
 
@@ -78,14 +75,14 @@ class GameScene : Scene("game", 0f, true)  {
         }
         mainDistrict.findPlot("bg").element!!.visible = b
 
-        if(socks.size<3){
-        //    val ind = spawnQueue.removeFirst()
+        if(socks.size<9){
             socks.add(
                 sockDrawer.random().also {
-        //            it.relocate(theta[ind],radius,drumCentre)
                     val loc = (0 until spawnCount).filter{index -> index !in filled}.random()
                     filled.add(loc)
                     it.theta = 3.141f*2f*(loc/spawnCount.toFloat())
+                    val speedList = listOf(0.001f, 0.003f, 0.005f, 0.009f, 0.02f, 0.05f)
+                    it.speed = speedList.random()
                     it.relocate(it.theta,radius,drumCentre)
                     it.modifyClickFunction {
                         if(it in looted) {
@@ -111,26 +108,14 @@ class GameScene : Scene("game", 0f, true)  {
             try {
                 var mt = true
                 socks.forEach {
-                    it.theta = it.theta + 0.02f
+                    it.theta = it.theta + it.speed
                     it.relocate(it.theta,radius,drumCentre)
                     it.update()
                     mt = !it.touchHandler(mt)
                 }
-            }catch (e: Exception){
+            } catch (e: Exception){
 
             }
-
-        }
-
-    }
-/*
-    fun addToQueue(unique: Boolean=false){
-        try {
-            spawnQueue.add(if(unique) (0 until spawnCount).filter{it !in spawnQueue}.random() else (0 until spawnCount).random() )
-        }catch (e: Exception){
-
         }
     }
-
- */
 }

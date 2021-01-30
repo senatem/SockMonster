@@ -9,7 +9,6 @@ import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.lcsModule.GetLcsRect
 import com.pungo.modules.lcsModule.LcsVariable
 import com.pungo.modules.uiElements.PinupImage
-import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.sin
@@ -20,6 +19,7 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
     var cX = GetLcs.ofZero()
     var cY = GetLcs.ofZero()
     var theta = 0f
+    var speed = 0f
     var held = false
     //val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
     //    it.clicked = clickFunction
