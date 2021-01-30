@@ -3,10 +3,8 @@ package com.pungo.game.scenes
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
-import com.pungo.modules.lcsModule.GetLcs
-import com.pungo.modules.lcsModule.GetLcsRect
-import com.pungo.modules.lcsModule.LcsRect
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.SetButton
@@ -16,13 +14,17 @@ import kotlin.math.sin
 
 class GameScene : Scene("game", 0f, true)  {
     var score = 0
-    val drumCentre = Pair(mainDistrict.block.cX,mainDistrict.block.cY)
-    var radius = mainDistrict.block.height*0.4f
-    val spawnCount = 12
+
+    private val drumCentre = Pair(mainDistrict.block.cX,mainDistrict.block.cY)
+    private var radius = mainDistrict.block.height*0.4f
+    private val spawnCount = 12
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
-    val spawnQueue = mutableListOf<Int>()
-    var socks = mutableListOf<Sock>()
-    var sockDrawer = mutableListOf<Sock>()
+    // private val spawnQueue = mutableListOf<Int>()
+    private val filled = mutableListOf<Int>()
+    private val socks = mutableListOf<Sock>()
+    private val sockDrawer = mutableListOf<Sock>()
+    private val looted = mutableListOf<Sock>()
+    var testCounter = 0
     init {
         mainDistrict.addFullPlot("bg").also {
             it.element = FastGenerator.colouredBox("bgc", Color.RED)
@@ -63,19 +65,43 @@ class GameScene : Scene("game", 0f, true)  {
         if(spawnQueue.size<5){
             addToQueue(true)
         }
+        //if(spawnQueue.size<5){
+        //    addToQueue(true)
+        //}
         if(socks.size<3){
-            val ind = spawnQueue.removeFirst()
+        //    val ind = spawnQueue.removeFirst()
             socks.add(
                 sockDrawer.random().also {
-                    it.relocate(theta[ind],radius,drumCentre)
+        //            it.relocate(theta[ind],radius,drumCentre)
+                    val loc = (0 until spawnCount).filter{index -> index !in filled}.random()
+                    filled.add(loc)
+                    it.theta = 3.141f*2f*(loc/spawnCount.toFloat())
+                    it.relocate(it.theta,radius,drumCentre)
                     it.modifyClickFunction {
-                        socks.remove(it)
+                        if(it in looted) {
+                            // game over
+                            ScoreManager.newScore("Not Implemented$testCounter", score)
+                            println(ScoreManager.listScores())
+                            score = 0
+                            testCounter++
+                            looted.clear()
+                            socks.clear()
+                            filled.clear()
+                        }
+                        else {
+                            socks.remove(it)
+                            filled.remove(loc)
+                            looted.add(it)
+                            score++
+                        }
                     }
                 }
             )
         }else{
             try {
                 socks.forEach {
+                    it.theta = it.theta + 0.02f
+                    it.relocate(it.theta,radius,drumCentre)
                     it.update()
                     it.touchHandler()
                 }
@@ -86,15 +112,14 @@ class GameScene : Scene("game", 0f, true)  {
         }
 
     }
-
+/*
     fun addToQueue(unique: Boolean=false){
         try {
-            spawnQueue.add(if(unique) (0 until 12).filter{it !in spawnQueue}.random() else (0 until 12).random() )
+            spawnQueue.add(if(unique) (0 until spawnCount).filter{it !in spawnQueue}.random() else (0 until spawnCount).random() )
         }catch (e: Exception){
 
         }
-
     }
 
-
+ */
 }

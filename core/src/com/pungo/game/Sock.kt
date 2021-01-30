@@ -18,6 +18,7 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, clickFuncti
     val h: LcsVariable= sockType.getHeight()
     var cX = GetLcs.ofZero()
     var cY = GetLcs.ofZero()
+    var theta = 0f
     val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
         it.clicked = clickFunction
     }
