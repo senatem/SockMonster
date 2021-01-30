@@ -1,12 +1,14 @@
 package com.pungo.game.scenes
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.Sock
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.lcsModule.GetLcsRect
 import com.pungo.modules.lcsModule.LcsRect
 import com.pungo.modules.scenes.Scene
+import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
@@ -22,6 +24,10 @@ class GameScene : Scene("game", 0f, true)  {
     var socks = mutableListOf<Sock>()
     var sockDrawer = mutableListOf<Sock>()
     init {
+        mainDistrict.addFullPlot("bg").also {
+            it.element = FastGenerator.colouredBox("bgc", Color.RED)
+        }
+
         for(i in 1..3){
             sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
         }
@@ -46,6 +52,14 @@ class GameScene : Scene("game", 0f, true)  {
 
     override fun update() {
         super.update()
+        var b = false
+        socks.forEach {
+            if(it.RelativeClick()){
+                b = true
+            }
+        }
+        mainDistrict.findPlot("bg").element!!.visible = b
+
         if(spawnQueue.size<5){
             addToQueue(true)
         }
