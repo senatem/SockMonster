@@ -33,6 +33,6 @@ class MenuScene : Scene("menu", 0f, true) {
         }
         MusicPlayer.open("MainThemeAlt.mp3")
         MusicPlayer.setLooping(true)
-        MusicPlayer.play()
+        // MusicPlayer.play()
     }
 }
