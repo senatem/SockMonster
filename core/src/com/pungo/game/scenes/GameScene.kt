@@ -37,7 +37,7 @@ class GameScene : Scene("game", 0f, true)  {
     init {
         mainDistrict.addFullPlot("background",z=1).also {
 
-            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/bg_placeholder.png")))
+            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/game_bg.png")))
         }
 
         mainDistrict.addFullPlot("bg",z=2).also {
@@ -62,6 +62,14 @@ class GameScene : Scene("game", 0f, true)  {
         mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
             it.element = monster
         }
+
+        mainDistrict.addFullPlot("score",Rectangle(642f / 1280f, 932f / 1280f, 576 / 720f, 703f / 720f),z=40).also {
+            it.element = PinupImage("score", SingleTexture(Gdx.files.internal("machine/score.png")))
+        }
+        //TODO score, z order canavar arkasında olacak
+
+        mainDistrict.addFullPlot("score text",Rectangle(670f / 1280f, 890f / 1280f, 616f / 720f, 676f / 720f),z=40)
+        //TODO score text
 
 
         for(i in 1..3){
