@@ -62,12 +62,6 @@ class GameScene : Scene("game", 0f, true)  {
         }
         mainDistrict.findPlot("bg").element!!.visible = b
 
-        if(spawnQueue.size<5){
-            addToQueue(true)
-        }
-        //if(spawnQueue.size<5){
-        //    addToQueue(true)
-        //}
         if(socks.size<3){
         //    val ind = spawnQueue.removeFirst()
             socks.add(

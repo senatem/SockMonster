@@ -8,6 +8,7 @@ import com.pungo.modules.basic.geometry.Point
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.lcsModule.GetLcsRect
 import com.pungo.modules.lcsModule.LcsVariable
+import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
@@ -22,6 +23,7 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, clickFuncti
     val sb = SetButton("sb", SingleTexture(path), SingleTexture(path), GetLcsRect.byParameters(w,h)).also {
         it.clicked = clickFunction
     }
+    val image = PinupImage("sb",SingleTexture(path))
 
     fun draw(batch: SpriteBatch){
         sb.draw(batch)
