@@ -9,6 +9,11 @@ enum class SockType {
     SMALL{
         private val ow = 148f
         private val oh = 148f
+        private val ow = 70f
+        private val oh = 132f
+        override fun getScoreMult(): Float {
+            return 5f
+        }
         override fun getWidth() = GetLcs.byPixel(ow*rescale)
         override fun getHeight() = GetLcs.byPixel(oh*rescale)
         override fun getRect(): List<ConvexPolygon> {
@@ -23,6 +28,11 @@ enum class SockType {
     MEDIUM{
         private val ow = 208f
         private val oh = 208f
+        private val ow = 96f
+        private val oh = 188f
+        override fun getScoreMult(): Float {
+            return 3f
+        }
         override fun getWidth() = GetLcs.byPixel(ow*rescale)
         override fun getHeight() = GetLcs.byPixel(oh*rescale)
         override fun getRect(): List<ConvexPolygon> {
@@ -36,6 +46,11 @@ enum class SockType {
     LARGE{
         private val ow = 253f
         private val oh = 252f
+        private val ow = 120f
+        private val oh = 244f
+        override fun getScoreMult(): Float {
+            return 2f
+        }
         override fun getWidth() = GetLcs.byPixel(ow*rescale)
         override fun getHeight() = GetLcs.byPixel(oh*rescale)
         override fun getRect(): List<ConvexPolygon> {
@@ -66,4 +81,5 @@ enum class SockType {
     abstract fun getWidth(): LcsVariable
     abstract fun getHeight(): LcsVariable
     abstract fun getRect(): List<ConvexPolygon>
+    abstract fun getScoreMult():Float
 }

@@ -11,6 +11,8 @@ import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 class GameScene : Scene("game", 0f, true)  {
@@ -125,7 +127,7 @@ class GameScene : Scene("game", 0f, true)  {
                             socks.remove(it)
                             filled.remove(loc)
                             looted.add(it)
-                            score++
+                            score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
                         }
                     }
                 }
