@@ -11,6 +11,7 @@ import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
+import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -24,12 +25,10 @@ class GameScene : Scene("game", 0f, true)  {
     private var radius = mainDistrict.block.height*0.3f
     private val spawnCount = 12
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
-    // private val spawnQueue = mutableListOf<Int>()
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
     private val looted = mutableListOf<Sock>()
-    // private val drumSpeed = 0.4f
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
@@ -68,7 +67,9 @@ class GameScene : Scene("game", 0f, true)  {
         }
         //TODO score, z order canavar arkasında olacak
 
-        mainDistrict.addFullPlot("score text",Rectangle(670f / 1280f, 890f / 1280f, 616f / 720f, 676f / 720f),z=40)
+        mainDistrict.addFullPlot("score text",Rectangle(670f / 1280f, 890f / 1280f, 616f / 720f, 676f / 720f),z=40).also {
+            it.element = TextBox("score","0","font/MPLUSRounded1c-Black.ttf",36,colour=Color(223f/255f, 237f/255f, 240f/255f,1f))
+        }
         //TODO score text
 
 
@@ -85,6 +86,13 @@ class GameScene : Scene("game", 0f, true)  {
         }
     }
 
+    /** Updates scoreboard
+     *
+     */
+    fun updateScoreboard(n: Int){
+        (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
+    }
+
 
     override fun draw(batch: SpriteBatch) {
         super.draw(batch)
@@ -93,14 +101,11 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed)
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
         socks.forEach {
-            // it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
             it.theta = it.theta + Angle(drumSpeed,Angle.Type.DEG)
         }
         socks.forEach {
             it.draw(batch)
         }
-        // highlightClicks(batch)
-
     }
 
 
@@ -126,10 +131,8 @@ class GameScene : Scene("game", 0f, true)  {
                     it.modifyClickFunction {
                         if(it in looted) {
                             // game over
-                            ScoreManager.newScore("Not Implemented$testCounter", score)
                             println(ScoreManager.listScores())
                             score = 0
-                            testCounter++
                             looted.clear()
                             socks.clear()
                             filled.clear()
@@ -140,6 +143,13 @@ class GameScene : Scene("game", 0f, true)  {
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
                             monster.wearSock(it.id)
+                            if (monster.clothedNo()==5) {
+                                monster.saveToGallery("attempt$testCounter")
+                                testCounter++
+                                monster.undress()
+                                looted.clear()
+                                score += 5000
+                            }
                         }
                     }
                 }
@@ -155,22 +165,8 @@ class GameScene : Scene("game", 0f, true)  {
                 println("exception")
 
             }
-
-        }
-
-
-    }
-/*
-    fun addToQueue(unique: Boolean=false){
-        try {
-            spawnQueue.add(if(unique) (0 until spawnCount).filter{it !in spawnQueue}.random() else (0 until spawnCount).random() )
-        }catch (e: Exception){
-            } catch (e: Exception){
-
         }
     }
-
- */
 
     /* If this function is called, the hitbox of the socks are highlighted
      *
