@@ -8,6 +8,7 @@ import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.game.SockMonsterCursor
 import com.pungo.modules.basic.geometry.Angle
+import com.pungo.modules.basic.geometry.FastGeometry
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
@@ -63,6 +64,21 @@ class GameScene : Scene("game", 0f, true)  {
 
         mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
             it.element = monster
+        }
+
+        mainDistrict.addFullPlot("monsterGlow",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=45).also {
+            it.element = SetButton("mg",
+                FastGenerator.colouredBox("mg",Color(1f,1f,0f,0.5f)),
+                FastGenerator.colouredBox("mg",Color(0.5f,0.5f,0f,0.5f))).also {
+                it.clicked = {
+                    monster.saveToGallery("attempt$testCounter")
+                    testCounter++
+                    monster.undress()
+                    looted.clear()
+                    score += 500
+                }
+            }
+            it.visible = false
         }
 
         mainDistrict.addFullPlot("score",Rectangle(642f / 1280f, 932f / 1280f, 576 / 720f, 703f / 720f),z=40).also {
@@ -125,7 +141,15 @@ class GameScene : Scene("game", 0f, true)  {
         }
     }
 
-
+    private fun grabby(){
+        grabbyCounter += Gdx.graphics.deltaTime
+        if(grabbyCounter<0.2f){
+            Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
+        }else{
+            Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
+        }
+        grabbyCounter %= 0.4f
+    }
 
     override fun update() {
         super.update()
@@ -137,14 +161,9 @@ class GameScene : Scene("game", 0f, true)  {
             }
         }
         if(b){
-            grabbyCounter += Gdx.graphics.deltaTime
-            if(grabbyCounter<0.2f){
-                Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
-            }else{
-                Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
-            }
-            grabbyCounter %= 0.4f
+            grabby()
         }
+        mainDistrict.findPlot("monsterGlow").visible = monster.clothedNo()==5
 
         // mainDistrict.findPlot("bg").element!!.visible = b
 
@@ -171,6 +190,7 @@ class GameScene : Scene("game", 0f, true)  {
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
                             updateScoreboard()
                             monster.wearSock(it.id)
+                            /*
                             if (monster.clothedNo()==5) {
                                 monster.saveToGallery("attempt$testCounter")
                                 testCounter++
@@ -178,6 +198,8 @@ class GameScene : Scene("game", 0f, true)  {
                                 looted.clear()
                                 score += 500
                             }
+
+                             */
                         }
                     }
                 }
