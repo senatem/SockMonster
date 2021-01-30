@@ -56,7 +56,8 @@ enum class SockType {
             return listOf(r1,r2)
             //return listOf(r1)
         }
-    },TEST{
+    },
+        TEST{
         private val ow = 120f
         private val oh = 120f
         override fun getWidth() = GetLcs.byPixel(ow*rescale)

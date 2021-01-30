@@ -2,12 +2,19 @@ package com.pungo.game
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Cursor
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.scenes.MenuScene
+import com.pungo.game.scenes.GameScene
 import com.pungo.game.scenes.StartupScreen
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.scenes.LayerManager
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.concurrent.fixedRateTimer
+import kotlin.concurrent.timer
 
 
 class Main : ApplicationAdapter() {
@@ -23,7 +30,7 @@ class Main : ApplicationAdapter() {
         LayerManager.add(MenuScene(), true)
      //   addCursor()
     }
-/*
+
     private fun addCursor() {
         val pixmap = Pixmap(Gdx.files.internal("visuals/cursor32.png"))
         val xHotspot = pixmap.width / 2
@@ -32,7 +39,7 @@ class Main : ApplicationAdapter() {
         Gdx.graphics.setCursor(cursor)
         pixmap.dispose()
     }
- */
+
 
     override fun render() {
         Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 0 / 255f, 1f)

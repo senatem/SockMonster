@@ -15,6 +15,8 @@ import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -35,6 +37,7 @@ class GameScene : Scene("game", 0f, true)  {
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
     var testCounter = 0
+    var lowerScore =false
     init {
         mainDistrict.addFullPlot("background",z=1).also {
 
@@ -103,7 +106,7 @@ class GameScene : Scene("game", 0f, true)  {
     /** Updates scoreboard
      *
      */
-    fun updateScoreboard(n: Int){
+    fun updateScoreboard(n: Int=score){
         (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
     }
 
@@ -114,8 +117,10 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.setOriginCenter()
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed)
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
+
         socks.forEach {
-            it.theta = it.theta + Angle(drumSpeed,Angle.Type.DEG)
+            it.speed = drumSpeed
+            it.theta = it.theta + Angle(it.speed,Angle.Type.DEG)
         }
         socks.forEach {
             it.draw(batch)
@@ -156,13 +161,14 @@ class GameScene : Scene("game", 0f, true)  {
                             filled.remove(loc)
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
+                            updateScoreboard()
                             monster.wearSock(it.id)
                             if (monster.clothedNo()==5) {
                                 monster.saveToGallery("attempt$testCounter")
                                 testCounter++
                                 monster.undress()
                                 looted.clear()
-                                score += 5000
+                                score += 500
                             }
                         }
                     }
@@ -180,6 +186,16 @@ class GameScene : Scene("game", 0f, true)  {
 
             }
         }
+/*            val gameTimer = Timer("gameTimer", true)
+            gameTimer.schedule(10000) {
+                if(score!=0) {
+                    score -= 5
+                    updateScoreboard()
+                }
+            }
+
+*/
+
     }
 
     /* If this function is called, the hitbox of the socks are highlighted
