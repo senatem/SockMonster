@@ -3,6 +3,7 @@ package com.pungo.game.scenes
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.modules.basic.geometry.Angle
@@ -10,6 +11,7 @@ import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
+import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import java.util.*
 import kotlin.concurrent.schedule
@@ -25,25 +27,24 @@ class GameScene : Scene("game", 0f, true)  {
     private var radius = mainDistrict.block.height*0.3f
     private val spawnCount = 12
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
-    // private val spawnQueue = mutableListOf<Int>()
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
     private val looted = mutableListOf<Sock>()
-    //private val drumSpeed = 0.4f
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
+    private val monster = Monster()
     var testCounter = 0
     var lowerScore =false
     init {
         mainDistrict.addFullPlot("background",z=1).also {
 
-            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/bg_placeholder.png")))
+            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/game_bg.png")))
         }
 
-        mainDistrict.addFullPlot("bg",z=2).also {
-            it.element = FastGenerator.colouredBox("bgc", Color.RED)
-        }
+        //mainDistrict.addFullPlot("bg",z=2).also {
+        //    it.element = FastGenerator.colouredBox("bgc", Color.RED)
+        //}
 
         mainDistrict.addFullPlot("drum",  Rectangle(36f/1280f,722f/1280f,17f/720f,703f/720f),z=20).also {
             it.element = PinupImage("drum",SingleTexture(Gdx.files.internal("machine/drum.png")))
@@ -60,6 +61,20 @@ class GameScene : Scene("game", 0f, true)  {
             }
         }
 
+        mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
+            it.element = monster
+        }
+
+        mainDistrict.addFullPlot("score",Rectangle(642f / 1280f, 932f / 1280f, 576 / 720f, 703f / 720f),z=40).also {
+            it.element = PinupImage("score", SingleTexture(Gdx.files.internal("machine/score.png")))
+        }
+        //TODO score, z order canavar arkasında olacak
+
+        mainDistrict.addFullPlot("score text",Rectangle(670f / 1280f, 890f / 1280f, 616f / 720f, 676f / 720f),z=40).also {
+            it.element = TextBox("score","0","font/MPLUSRounded1c-Black.ttf",36,colour=Color(223f/255f, 237f/255f, 240f/255f,1f))
+        }
+        //TODO score text
+
 
         for(i in 1..3){
             sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
@@ -72,9 +87,13 @@ class GameScene : Scene("game", 0f, true)  {
         for(i in 1..5){
             sockDrawer.add(Sock("S_$i",Gdx.files.internal("socks/S_$i.png"),SockType.SMALL))
         }
+    }
 
-
-
+    /** Updates scoreboard
+     *
+     */
+    fun updateScoreboard(n: Int){
+        (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
     }
 
 
@@ -85,14 +104,11 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed)
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
         socks.forEach {
-            //it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
             it.theta = it.theta + Angle(drumSpeed,Angle.Type.DEG)
         }
         socks.forEach {
             it.draw(batch)
         }
-        // highlightClicks(batch)
-
     }
 
 
@@ -106,7 +122,7 @@ class GameScene : Scene("game", 0f, true)  {
                 b = true
             }
         }
-        mainDistrict.findPlot("bg").element!!.visible = b
+        // mainDistrict.findPlot("bg").element!!.visible = b
 
         if(socks.size<1){
             socks.add(
@@ -118,10 +134,8 @@ class GameScene : Scene("game", 0f, true)  {
                     it.modifyClickFunction {
                         if(it in looted) {
                             // game over
-                            ScoreManager.newScore("Not Implemented$testCounter", score)
                             println(ScoreManager.listScores())
                             score = 0
-                            testCounter++
                             looted.clear()
                             socks.clear()
                             filled.clear()
@@ -131,6 +145,14 @@ class GameScene : Scene("game", 0f, true)  {
                             filled.remove(loc)
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
+                            monster.wearSock(it.id)
+                            if (monster.clothedNo()==5) {
+                                monster.saveToGallery("attempt$testCounter")
+                                testCounter++
+                                monster.undress()
+                                looted.clear()
+                                score += 5000
+                            }
                         }
                     }
                 }
@@ -146,7 +168,6 @@ class GameScene : Scene("game", 0f, true)  {
                 println("exception")
 
             }
-
         }
             val gameTimer = Timer("gameTimer", true)
             gameTimer.schedule(1000) {
@@ -156,19 +177,8 @@ class GameScene : Scene("game", 0f, true)  {
 
 
     }
-/*
-    fun addToQueue(unique: Boolean=false){
-        try {
-            spawnQueue.add(if(unique) (0 until spawnCount).filter{it !in spawnQueue}.random() else (0 until spawnCount).random() )
-        }catch (e: Exception){
-            } catch (e: Exception){
 
-        }
-    }
-
- */
-
-    /** If this function is called, the hitbox of the socks are highlighted
+    /* If this function is called, the hitbox of the socks are highlighted
      *
      */
     private fun highlightClicks(batch: SpriteBatch){

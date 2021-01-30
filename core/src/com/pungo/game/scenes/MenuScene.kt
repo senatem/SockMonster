@@ -32,7 +32,7 @@ class MenuScene : Scene("menu", 0f, true) {
             }
         }
 
-        mainDistrict.addFullPlot("gallery",Rectangle(852f / 1280f, 1230f / 1280f, 158f / 720f, 280f / 720f)).also {
+        mainDistrict.addFullPlot("gallery",Rectangle(852f / 1280f, 1230f / 1280f, 136f / 720f, 258f / 720f)).also {
             it.element = SetButton("gallery",SingleTexture(Gdx.files.internal("menu/gallery_normal.png")),SingleTexture(Gdx.files.internal("menu/gallery_pressed.png"))).also { it2->
                 it2.clicked = {
                     LayerManager.scenesToRemove.add(this)
@@ -42,15 +42,24 @@ class MenuScene : Scene("menu", 0f, true) {
             }
         }
 
-        mainDistrict.addFullPlot("exit",Rectangle(852f / 1280f, 1230f / 1280f, 58f / 720f, 180f / 720f)).also {
+        mainDistrict.addFullPlot("exit",Rectangle(1026f / 1280f, 1230f / 1280f, 36f / 720f, 136f / 720f)).also {
             it.element = SetButton("exit",SingleTexture(Gdx.files.internal("menu/exit_normal.png")),SingleTexture(Gdx.files.internal("menu/exit_pressed.png"))).also { it2->
                 it2.clicked = {
-                    LayerManager.scenesToRemove.add(this)
-                    LayerManager.scenesToAdd.add(Pair(GameScene(), true))
+                    SfxPlayer.play("click")
                     dispose()
+                    Gdx.app.exit()
                 }
             }
         }
+
+        mainDistrict.addFullPlot("credits",Rectangle(172f / 1280f, 428f / 1280f, 18f / 720f, 184f / 720f)).also {
+            it.element = SetButton("cred",FastGenerator.colouredBox("c1",Color(0f,0f,0f,0f)),FastGenerator.colouredBox("c1",Color(0f,0f,0f,0f))).also {
+                it.clicked = {
+                    // TODO credits scene
+                }
+            }
+        }
+
         MusicPlayer.open("MainThemeAlt.mp3")
         MusicPlayer.setLooping(true)
         // MusicPlayer.play()
