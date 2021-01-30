@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.scenes.MenuScene
 import com.pungo.game.scenes.GameScene
+import com.pungo.game.scenes.PauseScene
 import com.pungo.game.scenes.StartupScreen
 import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.scenes.LayerManager
