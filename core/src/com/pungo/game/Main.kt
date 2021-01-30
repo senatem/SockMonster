@@ -29,16 +29,16 @@ class Main : ApplicationAdapter() {
 
         batch = SpriteBatch()
         LayerManager.add(MenuScene(), true)
-     //   addCursor()
+        addCursor()
     }
 
     private fun addCursor() {
-        val pixmap = Pixmap(Gdx.files.internal("visuals/cursor32.png"))
-        val xHotspot = pixmap.width / 2
-        val yHotspot = pixmap.height / 2
-        val cursor: Cursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot)
-        Gdx.graphics.setCursor(cursor)
-        pixmap.dispose()
+        //val pixmap = Pixmap(Gdx.files.internal("ui/Hand open.png"))
+        //val xHotspot = pixmap.width/2
+        //val yHotspot = pixmap.height/2
+        //val cursor: Cursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot)
+        Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
+        //pixmap.dispose()
     }
 
 

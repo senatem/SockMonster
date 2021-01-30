@@ -10,12 +10,13 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 class Monster: MultiMediaItem("Monster") {
     private val parts = mutableMapOf<String, String>("leftArm" to "default", "rightArm" to "default", "leftLeg" to "default", "rightLeg" to "default", "tummy" to "default")
     val faces = MultiMediaItem("faces").also {
+        it.addElement(PinupImage("0",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/0.png"))))
         it.addElement(PinupImage("1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
         it.addElement(PinupImage("2",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/2.png"))))
         it.addElement(PinupImage("3",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/3.png"))))
         it.addElement(PinupImage("4",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/4.png"))))
         it.addElement(PinupImage("5",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/5.png"))))
-        it.invisibleExcept("1")
+        it.invisibleExcept("0")
     }
     val leftArm = MultiMediaItem("leftArm").also {
         it.addElement(PinupImage("default",SingleTexture(Gdx.files.internal("Sock Monster Body parts/left_arm/default.png"))))
@@ -120,7 +121,7 @@ class Monster: MultiMediaItem("Monster") {
                 throw Exception("I cant wear $id")
             }
         }
-        faces.invisibleExcept("${clothedNo()+1}")
+        faces.invisibleExcept("${clothedNo()}")
         //clothedNo()
     }
 

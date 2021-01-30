@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
+import com.pungo.game.SockMonsterCursor
 import com.pungo.modules.basic.geometry.Angle
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
@@ -20,6 +21,7 @@ import kotlin.math.roundToInt
 class GameScene : Scene("game", 0f, true)  {
     var score = 0
     private val somethingCool = FastGenerator.colouredBox("sc",Color(0f,1f,0f,0.2f))
+    var grabbyCounter = 0f
 
     private val drumCentre = Pair(mainDistrict.block.width*379/1280,mainDistrict.block.cY)
     private var radius = mainDistrict.block.height*0.3f
@@ -134,6 +136,16 @@ class GameScene : Scene("game", 0f, true)  {
                 b = true
             }
         }
+        if(b){
+            grabbyCounter += Gdx.graphics.deltaTime
+            if(grabbyCounter<0.2f){
+                Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
+            }else{
+                Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
+            }
+            grabbyCounter %= 0.4f
+        }
+
         // mainDistrict.findPlot("bg").element!!.visible = b
 
         if(socks.size<1){
