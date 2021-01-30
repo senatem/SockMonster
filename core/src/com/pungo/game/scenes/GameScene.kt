@@ -13,11 +13,7 @@ import com.pungo.modules.uiElements.FastGenerator
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
-import java.util.*
-import kotlin.concurrent.schedule
-import kotlin.math.cos
 import kotlin.math.roundToInt
-import kotlin.math.sin
 
 class GameScene : Scene("game", 0f, true)  {
     var score = 0
