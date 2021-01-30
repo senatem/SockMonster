@@ -143,7 +143,7 @@ class GameScene : Scene("game", 0f, true)  {
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
                             monster.wearSock(it.id)
-                            if (monster.allClothed()) {
+                            if (monster.clothedNo()==5) {
                                 monster.saveToGallery("attempt$testCounter")
                                 testCounter++
                                 monster.undress()
