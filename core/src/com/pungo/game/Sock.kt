@@ -10,7 +10,6 @@ import com.pungo.modules.lcsModule.GetLcs
 import com.pungo.modules.lcsModule.GetLcsRect
 import com.pungo.modules.lcsModule.LcsVariable
 import com.pungo.modules.uiElements.PinupImage
-import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.sin

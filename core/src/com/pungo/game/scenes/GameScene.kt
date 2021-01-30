@@ -24,12 +24,10 @@ class GameScene : Scene("game", 0f, true)  {
     private var radius = mainDistrict.block.height*0.3f
     private val spawnCount = 12
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
-    // private val spawnQueue = mutableListOf<Int>()
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
     private val looted = mutableListOf<Sock>()
-    // private val drumSpeed = 0.4f
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
@@ -85,14 +83,11 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed)
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
         socks.forEach {
-            // it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
             it.theta = it.theta + Angle(drumSpeed,Angle.Type.DEG)
         }
         socks.forEach {
             it.draw(batch)
         }
-        // highlightClicks(batch)
-
     }
 
 
@@ -118,10 +113,8 @@ class GameScene : Scene("game", 0f, true)  {
                     it.modifyClickFunction {
                         if(it in looted) {
                             // game over
-                            ScoreManager.newScore("Not Implemented$testCounter", score)
                             println(ScoreManager.listScores())
                             score = 0
-                            testCounter++
                             looted.clear()
                             socks.clear()
                             filled.clear()
@@ -132,6 +125,13 @@ class GameScene : Scene("game", 0f, true)  {
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
                             monster.wearSock(it.id)
+                            if (monster.allClothed()) {
+                                monster.saveToGallery("attempt$testCounter")
+                                testCounter++
+                                monster.undress()
+                                looted.clear()
+                                score += 5000
+                            }
                         }
                     }
                 }
@@ -147,22 +147,8 @@ class GameScene : Scene("game", 0f, true)  {
                 println("exception")
 
             }
-
-        }
-
-
-    }
-/*
-    fun addToQueue(unique: Boolean=false){
-        try {
-            spawnQueue.add(if(unique) (0 until spawnCount).filter{it !in spawnQueue}.random() else (0 until spawnCount).random() )
-        }catch (e: Exception){
-            } catch (e: Exception){
-
         }
     }
-
- */
 
     /* If this function is called, the hitbox of the socks are highlighted
      *
