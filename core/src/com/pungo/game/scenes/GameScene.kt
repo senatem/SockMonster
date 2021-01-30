@@ -3,6 +3,7 @@ package com.pungo.game.scenes
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.modules.basic.geometry.Angle
@@ -28,9 +29,10 @@ class GameScene : Scene("game", 0f, true)  {
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
     private val looted = mutableListOf<Sock>()
-    //private val drumSpeed = 0.4f
+    // private val drumSpeed = 0.4f
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
+    private val monster = Monster()
     var testCounter = 0
     init {
         mainDistrict.addFullPlot("background",z=1).also {
@@ -57,6 +59,10 @@ class GameScene : Scene("game", 0f, true)  {
             }
         }
 
+        mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
+            it.element = monster
+        }
+
 
         for(i in 1..3){
             sockDrawer.add(Sock("L_$i",Gdx.files.internal("socks/L_$i.png"),SockType.LARGE) )
@@ -69,9 +75,6 @@ class GameScene : Scene("game", 0f, true)  {
         for(i in 1..5){
             sockDrawer.add(Sock("S_$i",Gdx.files.internal("socks/S_$i.png"),SockType.SMALL))
         }
-
-
-
     }
 
 
@@ -82,7 +85,7 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("drum").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed)
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
         socks.forEach {
-            //it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
+            // it.theta = it.theta + baseSockSpeed*Gdx.graphics.deltaTime
             it.theta = it.theta + Angle(drumSpeed,Angle.Type.DEG)
         }
         socks.forEach {
@@ -128,6 +131,7 @@ class GameScene : Scene("game", 0f, true)  {
                             filled.remove(loc)
                             looted.add(it)
                             score+=(5000f*it.sockType.getScoreMult()*it.speed).roundToInt()
+                            monster.wearSock(it.id)
                         }
                     }
                 }
@@ -160,7 +164,7 @@ class GameScene : Scene("game", 0f, true)  {
 
  */
 
-    /** If this function is called, the hitbox of the socks are highlighted
+    /* If this function is called, the hitbox of the socks are highlighted
      *
      */
     private fun highlightClicks(batch: SpriteBatch){
