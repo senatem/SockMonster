@@ -14,7 +14,7 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFunction: ()-> Unit={}) {
+class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFunction: ()-> Unit={}, var sockRad:LcsVariable = GetLcs.byPixel(240) ) {
     val w: LcsVariable = sockType.getWidth()
     val h: LcsVariable= sockType.getHeight()
     var cX = GetLcs.ofZero()
@@ -22,6 +22,7 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
     var theta = Angle(0f)
     var speed = 0f
     var held = false
+
     val image = PinupImage("sb",SingleTexture(path)).also {
         it.resize(w,h)
     }

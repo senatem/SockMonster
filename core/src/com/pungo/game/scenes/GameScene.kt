@@ -84,6 +84,7 @@ class GameScene : Scene("game", 0f, true)  {
                     monster.undress()
                     looted.clear()
                     score += 500
+                    updateScoreboard()
                 }
             }
             it.visible = false
@@ -128,8 +129,28 @@ class GameScene : Scene("game", 0f, true)  {
     /** Updates scoreboard
      *
      */
-    fun updateScoreboard(n: Int=score){
+    private fun updateScoreboard(n: Int=score){
         (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
+        when {
+            score>=3000 -> {
+                var maxNumbOfSocks = 30
+            }
+            score in 2000..2999 -> {
+                var maxNumbOfSocks = 25
+            }
+            score in 1500..1999 -> {
+                var maxNumbOfSocks = 20
+            }
+            score in 1000..1499 -> {
+                var maxNumbOfSocks = 15
+            }
+            score in 500..999 -> {
+                var maxNumbOfSocks = 10
+            }
+            else -> {
+                var maxNumbOfSocks = 5
+            }
+        }
     }
 
 
@@ -156,7 +177,7 @@ class GameScene : Scene("game", 0f, true)  {
         super.update()
         var b = false
         socks.forEach {
-            it.relocate(radius,drumCentre)
+            it.relocate(it.sockRad,drumCentre)
             if(it.relativeClick()){
                 b = true
             }
@@ -168,27 +189,29 @@ class GameScene : Scene("game", 0f, true)  {
 
         // mainDistrict.findPlot("bg").element!!.visible = b
 
-        if(socks.size<1){
+        if(socks.size<5){
             socks.add(
                 sockDrawer.random().also {
                     val loc = (0 until spawnCount).filter{index -> index !in filled}.random()
                     filled.add(loc)
-                    val drumMiddle = GetLcs.byPixel(240)
-                    val drumHalfRange = GetLcs.byPixel(100)
                       it.theta = Angle(((0..360).random()).toFloat(),Angle.Type.DEG)
 
                     when (it.sockType) {
+                        // n is the range of the sock
                         SockType.LARGE -> {
-                            val n = (195f + 5f * (Random.nextFloat() * 2 - 1))
-                            it.relocate(GetLcs.byPixel(n),drumCentre)
+                            val n = GetLcs.byPixel(195f + 5f * (Random.nextFloat() * 2 - 1))
+                            it.relocate(n,drumCentre)
+                            it.sockRad = n
                         }
                         SockType.MEDIUM -> {
-                            val n = (225f + 15f * (Random.nextFloat() * 2 - 1))
-                            it.relocate(GetLcs.byPixel(n),drumCentre)
+                            val n = GetLcs.byPixel(225f + 15f * (Random.nextFloat() * 2 - 1))
+                            it.relocate(n,drumCentre)
+                            it.sockRad = n
                         }
                         else -> {
-                            val n = (230f + 40f * (Random.nextFloat() * 2 - 1))
-                            it.relocate(GetLcs.byPixel(n),drumCentre)
+                            val n = GetLcs.byPixel(230f + 40f * (Random.nextFloat() * 2 - 1))
+                            it.relocate(n,drumCentre)
+                            it.sockRad = n
                         }
                     }
                     val speedList = listOf(0.001f, 0.003f, 0.005f, 0.009f, 0.02f, 0.05f)
@@ -198,6 +221,7 @@ class GameScene : Scene("game", 0f, true)  {
                             // game over
                             println(ScoreManager.listScores())
                             score = 0
+                            updateScoreboard()
                             looted.clear()
                             socks.clear()
                             filled.clear()
