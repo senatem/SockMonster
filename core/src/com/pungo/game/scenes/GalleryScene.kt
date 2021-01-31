@@ -1,12 +1,16 @@
 package com.pungo.game.scenes
 
 import com.badlogic.gdx.Gdx
+import com.pungo.modules.audio.MusicPlayer
+import com.pungo.modules.audio.SfxPlayer
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class GalleryScene: Scene("gallery",0f) {
 
@@ -21,6 +25,7 @@ class GalleryScene: Scene("gallery",0f) {
                 SingleTexture(Gdx.files.internal("gallery/back_normal.png")),
                 SingleTexture(Gdx.files.internal("gallery/back_pressed.png"))).also {it2 ->
                     it2.clicked = {
+                        SfxPlayer.play("click")
                         LayerManager.scenesToRemove.add(this)
                         LayerManager.scenesToAdd.add(Pair(MenuScene(), true))
                         dispose()
@@ -44,7 +49,11 @@ class GalleryScene: Scene("gallery",0f) {
         //burası başlık olacak galerideki resimlere
 
         mainDistrict.addFullPlot("image", Rectangle(164f / 1280f, 1118f / 1280f, 48f / 720f, 576f / 720f))
-
+        SfxPlayer.addSFX("click", "SFX/click.ogg")
     }
 
+    fun loadMonster(path: String) : Map<String, String>{
+        val file = Gdx.files.local("path")
+        return Json.decodeFromString(file.readString())
+    }
 }

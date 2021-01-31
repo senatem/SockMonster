@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color
 import com.pungo.modules.uiElements.MultiMediaItem
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 class Monster: MultiMediaItem("Monster") {
@@ -128,7 +130,7 @@ class Monster: MultiMediaItem("Monster") {
 
     fun saveToGallery(path: String){
         val monster = Gdx.files.local(path)
-        monster.writeString(parts.toString(), false)
+        monster.writeString(Json.encodeToString(parts), false)
     }
 
     object WornSocks{
