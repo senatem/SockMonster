@@ -55,7 +55,9 @@ class MenuScene : Scene("menu", 0f, true) {
         mainDistrict.addFullPlot("credits",Rectangle(172f / 1280f, 428f / 1280f, 18f / 720f, 184f / 720f)).also {
             it.element = SetButton("cred",FastGenerator.colouredBox("c1",Color(0f,0f,0f,0f)),FastGenerator.colouredBox("c1",Color(0f,0f,0f,0f))).also {
                 it.clicked = {
-                    // TODO credits scene
+                    LayerManager.scenesToRemove.add(this)
+                    LayerManager.scenesToAdd.add(Pair(CreditsScene(), true))
+                    dispose()
                 }
             }
         }
