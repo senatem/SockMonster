@@ -17,7 +17,7 @@ object SockMonsterCursor {
     }
 
     fun that(){
-        val pixmap = Pixmap(Gdx.files.internal("ui/Hand open2.png"))
+        val pixmap = Pixmap(Gdx.files.internal("ui/Hand open.png"))
         val xHotspot = pixmap.width/4
         val yHotspot = pixmap.height/4
         pixmap.filter = Pixmap.Filter.NearestNeighbour
@@ -33,7 +33,7 @@ object SockMonsterCursor {
         openCursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot)
 
 
-        val pixmap2 = Pixmap(Gdx.files.internal("ui/Hand closed2.png"))
+        val pixmap2 = Pixmap(Gdx.files.internal("ui/Hand closed.png"))
         val xHotspot2 = pixmap2.width/4
         val yHotspot2 = pixmap2.height/4
         pixmap2.filter = Pixmap.Filter.NearestNeighbour
