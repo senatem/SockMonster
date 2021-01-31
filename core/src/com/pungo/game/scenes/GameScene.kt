@@ -8,6 +8,7 @@ import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.game.SockMonsterCursor
+import com.pungo.modules.audio.MusicPlayer
 import com.pungo.modules.audio.SfxPlayer
 import com.pungo.modules.basic.geometry.Angle
 import com.pungo.modules.basic.geometry.FastGeometry
@@ -39,7 +40,6 @@ class GameScene : Scene("game", 0f, true)  {
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
-    private val looted = mutableListOf<Sock>()
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
@@ -49,6 +49,9 @@ class GameScene : Scene("game", 0f, true)  {
     var testCounter = 0
     init {
 
+        //MusicPlayer.open("SockSong.mp3")
+        MusicPlayer.setLooping(true)
+        MusicPlayer.play()
         SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
 
@@ -88,7 +91,6 @@ class GameScene : Scene("game", 0f, true)  {
                     monster.saveToGallery("monster_json/attempt$testCounter")
                     testCounter++
                     monster.undress()
-                    looted.clear()
                     score += 500
                     updateScoreboard()
                 }
@@ -300,14 +302,12 @@ class GameScene : Scene("game", 0f, true)  {
                     val speedList = listOf(-0.1f, 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)
                     it.speed += speedList.random()
                     it.modifyClickFunction {
-                        if(it in looted) {
+                        if(monster.onMonster(it.id)) {
                             // game over
                             println(ScoreManager.listScores())
-                            //score = 0
-                            //updateScoreboard()
-                            //looted.clear()
-                            //socks.clear()
-                            //filled.clear()
+                            updateScoreboard()
+                            socks.clear()
+                            filled.clear()
                             LayerManager.scenesToRemove.add(this)
                             LayerManager.scenesToAdd.add(Pair(SadScene(score), true))
                             dispose()
@@ -315,7 +315,6 @@ class GameScene : Scene("game", 0f, true)  {
                         else {
                             socks.remove(it)
                             filled.remove(loc)
-                            looted.add(it)
                             score+=(10f*it.sockType.getScoreMult()*significant(it.speed,1)).roundToInt()
                             updateScoreboard()
                             monster.wearSock(it.id)
@@ -328,7 +327,6 @@ class GameScene : Scene("game", 0f, true)  {
                                 score += 500
                                 updateScoreboard()
                             }
-
                              */
                         }
                     }

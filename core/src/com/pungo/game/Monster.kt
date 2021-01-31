@@ -85,6 +85,10 @@ class Monster: MultiMediaItem("Monster") {
         return clothes
     }
 
+    fun wear(l: List<String>){
+        l.forEach{it-> wearSock(it) }
+    }
+
     fun undress(){
         listOf(leftArm,rightArm, leftLeg, rightLeg, tummy).forEach {
             it.invisibleExcept("default")
@@ -132,6 +136,10 @@ class Monster: MultiMediaItem("Monster") {
         val monster = Gdx.files.local(path)
         val toSave = "{leftArm:${parts["leftArm"]}, rightArm:${parts["rightArm"]}, leftLeg:${parts["leftLeg"]}, rightLeg:${parts["rightLeg"]}, tummy:${parts["tummy"]}}"
         monster.writeString(toSave, false)
+    }
+
+    fun onMonster(id: String) : Boolean{
+        return id in parts.values
     }
 
     object WornSocks{
