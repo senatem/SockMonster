@@ -34,6 +34,7 @@ class Main : ApplicationAdapter() {
     }
 
     private fun addCursor() {
+        SockMonsterCursor.that()
         //val pixmap = Pixmap(Gdx.files.internal("ui/Hand open.png"))
         //val xHotspot = pixmap.width/2
         //val yHotspot = pixmap.height/2

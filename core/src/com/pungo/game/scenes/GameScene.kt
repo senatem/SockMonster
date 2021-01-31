@@ -180,6 +180,8 @@ class GameScene : Scene("game", 0f, true)  {
             it.relocate(it.sockRad,drumCentre)
             if(it.relativeClick()){
                 b = true
+            }else{
+                Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
             }
         }
         if(b){
