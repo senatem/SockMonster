@@ -159,6 +159,8 @@ class GameScene : Scene("game", 0f, true)  {
             it.relocate(radius,drumCentre)
             if(it.relativeClick()){
                 b = true
+            }else{
+                Gdx.graphics.setCursor(SockMonsterCursor.openCursor)
             }
         }
         if(b){
