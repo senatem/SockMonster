@@ -261,7 +261,7 @@ class GameScene : Scene("game", 0f, true)  {
         }else{
             try {
                 var mt = true
-                socks.forEach {
+                socks.reversed().forEach {
                     it.update()
                     mt = !it.touchHandler(mt)
                 }
