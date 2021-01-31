@@ -25,6 +25,7 @@ object SockMonsterCursor {
         for (i in 0..pixmap.width){
             for (j in 0..pixmap.height){
                 val ii = pixmap.getPixel(i,j)
+                
                 if(ii%256!=0){
                     pixmap.drawPixel(i,j,ii or 255)
                 }
