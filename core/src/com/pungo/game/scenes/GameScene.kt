@@ -1,12 +1,14 @@
 package com.pungo.game.scenes
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.game.SockMonsterCursor
+import com.pungo.modules.audio.SfxPlayer
 import com.pungo.modules.basic.geometry.Angle
 import com.pungo.modules.basic.geometry.FastGeometry
 import com.pungo.modules.basic.geometry.Rectangle
@@ -44,6 +46,8 @@ class GameScene : Scene("game", 0f, true)  {
 
     var testCounter = 0
     init {
+
+        SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
 
             it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("machine/game_bg.png")))
@@ -79,7 +83,7 @@ class GameScene : Scene("game", 0f, true)  {
                     it.recolour(Color(0.8f,0.8f,0.8f,1f))
                 }).also {
                 it.clicked = {
-                    monster.saveToGallery("attempt$testCounter")
+                    monster.saveToGallery("monster_json/attempt$testCounter")
                     testCounter++
                     monster.undress()
                     looted.clear()
@@ -105,6 +109,7 @@ class GameScene : Scene("game", 0f, true)  {
                 SingleTexture(Gdx.files.internal("gallery/back_normal.png")),
                 SingleTexture(Gdx.files.internal("gallery/back_pressed.png"))).also { it2 ->
                 it2.clicked = {
+                    SfxPlayer.play("click")
                     LayerManager.scenesToRemove.add(this)
                     LayerManager.scenesToAdd.add(Pair(MenuScene(), true))
                     dispose()
@@ -188,6 +193,7 @@ class GameScene : Scene("game", 0f, true)  {
             grabby()
         }
         mainDistrict.findPlot("monsterGlow").visible = monster.clothedNo()==5
+        (mainDistrict.findPlot("monsterGlow").element as SetButton).deactivate = monster.clothedNo()!=5
 
         // mainDistrict.findPlot("bg").element!!.visible = b
 
@@ -222,11 +228,14 @@ class GameScene : Scene("game", 0f, true)  {
                         if(it in looted) {
                             // game over
                             println(ScoreManager.listScores())
-                            score = 0
-                            updateScoreboard()
-                            looted.clear()
-                            socks.clear()
-                            filled.clear()
+                            //score = 0
+                            //updateScoreboard()
+                            //looted.clear()
+                            //socks.clear()
+                            //filled.clear()
+                            LayerManager.scenesToRemove.add(this)
+                            LayerManager.scenesToAdd.add(Pair(SadScene(score), true))
+                            dispose()
                         }
                         else {
                             socks.remove(it)
@@ -253,7 +262,7 @@ class GameScene : Scene("game", 0f, true)  {
         }else{
             try {
                 var mt = true
-                socks.forEach {
+                socks.reversed().forEach {
                     it.update()
                     mt = !it.touchHandler(mt)
                 }
@@ -313,6 +322,13 @@ class GameScene : Scene("game", 0f, true)  {
             Gdx.graphics.setCursor(SockMonsterCursor.closedCursor)
         }
         grabbyCounter %= 0.4f
+    }
+
+    override fun keyDown(keycode: Int) {
+        if (keycode == Input.Keys.ESCAPE) {
+            LayerManager.scenesToAdd.add(Pair(PauseScene(this), true))
+            this.visible = false
+        }
     }
 
 

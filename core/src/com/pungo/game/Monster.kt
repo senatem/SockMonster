@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Color
 import com.pungo.modules.uiElements.MultiMediaItem
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.visuals.textureHandling.SingleTexture
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 class Monster: MultiMediaItem("Monster") {
-    private val parts = mutableMapOf<String, String>("leftArm" to "default", "rightArm" to "default", "leftLeg" to "default", "rightLeg" to "default", "tummy" to "default")
+    private val parts = mutableMapOf("leftArm" to "default", "rightArm" to "default", "leftLeg" to "default", "rightLeg" to "default", "tummy" to "default")
     val faces = MultiMediaItem("faces").also {
         it.addElement(PinupImage("0",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/0.png"))))
         it.addElement(PinupImage("1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
@@ -128,7 +130,8 @@ class Monster: MultiMediaItem("Monster") {
 
     fun saveToGallery(path: String){
         val monster = Gdx.files.local(path)
-        monster.writeString(parts.toString(), false)
+        val toSave = "{leftArm:${parts["leftArm"]}, rightArm:${parts["rightArm"]}, leftLeg:${parts["leftLeg"]}, rightLeg:${parts["rightLeg"]}, tummy:${parts["tummy"]}}"
+        monster.writeString(toSave, false)
     }
 
     object WornSocks{
