@@ -188,6 +188,7 @@ class GameScene : Scene("game", 0f, true)  {
             grabby()
         }
         mainDistrict.findPlot("monsterGlow").visible = monster.clothedNo()==5
+        (mainDistrict.findPlot("monsterGlow").element as SetButton).deactivate = monster.clothedNo()!=5
 
         // mainDistrict.findPlot("bg").element!!.visible = b
 

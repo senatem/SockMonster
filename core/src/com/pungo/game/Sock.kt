@@ -44,7 +44,8 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
     fun touchHandler(mayTouch: Boolean=true): Boolean{
         return if(mayTouch&&relativeClick()){
             if(Gdx.input.justTouched()){
-                held = true
+                clickFunction()
+                //held = true
             }
 
             if((!Gdx.input.isTouched)&&held){
