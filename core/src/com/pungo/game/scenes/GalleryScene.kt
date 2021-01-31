@@ -82,7 +82,7 @@ class GalleryScene: Scene("gallery",0f) {
 
     fun loadMonster(path: String) : Map<String, String> {
         val json = Json { isLenient=true }
-        val file = Gdx.files.internal(path)
+        val file = Gdx.files.local(path)
         val res = json.decodeFromString<Map<String, String>>(file.readString())
         return res
     }

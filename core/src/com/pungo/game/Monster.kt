@@ -129,7 +129,7 @@ class Monster: MultiMediaItem("Monster") {
     }
 
     fun saveToGallery(path: String){
-        val monster = Gdx.files.internal(path)
+        val monster = Gdx.files.local(path)
         val toSave = "{leftArm:${parts["leftArm"]}, rightArm:${parts["rightArm"]}, leftLeg:${parts["leftLeg"]}, rightLeg:${parts["rightLeg"]}, tummy:${parts["tummy"]}}"
         monster.writeString(toSave, false)
     }
