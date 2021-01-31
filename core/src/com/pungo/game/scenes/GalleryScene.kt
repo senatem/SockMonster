@@ -19,9 +19,14 @@ class GalleryScene: Scene("gallery",0f) {
     var index = 0
 
     init {
-        //for (i in 0..1000000){
-        //    loadMonster()
-        //}
+        for (i in 0..1000000){
+            try{
+                val m = loadMonster("monster_json/attempt$i")
+                galleryMonsters.add(m.values.toList())
+            }catch (e: Exception){
+                break
+            }
+        }
 
         // val v = loadMonster("monster_json/attempt0")
         // println(v)
@@ -29,7 +34,7 @@ class GalleryScene: Scene("gallery",0f) {
             it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("gallery/gallery_bg.png")))
         }
 
-        mainDistrict.addFullPlot("monster",Rectangle(765f / 1280f, 1265f / 1280f, 10f / 720f, 710f / 720f),z=40).also {
+        mainDistrict.addFullPlot("monster",Rectangle(440f / 1280f, 840f / 1280f, 40f / 720f, 600f / 720f),z=40).also {
             it.element = Monster()
         }
 
@@ -52,8 +57,13 @@ class GalleryScene: Scene("gallery",0f) {
                 SingleTexture(Gdx.files.internal("gallery/left_pressed.png"))).also {
                     it.clicked = {
                         index -= 1
-                        if(index <=0){
+                        if(index <0){
                             index = galleryMonsters.size-1
+                        }
+                        if(index==0){
+                            (mainDistrict.findPlot("monster").element as Monster).undress()
+                        }else{
+                            (mainDistrict.findPlot("monster").element as Monster).wear(galleryMonsters[index])
                         }
                     }
             }
@@ -68,6 +78,12 @@ class GalleryScene: Scene("gallery",0f) {
                     if(index>= galleryMonsters.size){
                         index = 0
                     }
+                    if(index==0){
+                        (mainDistrict.findPlot("monster").element as Monster).undress()
+                    }else{
+                        (mainDistrict.findPlot("monster").element as Monster).wear(galleryMonsters[index])
+                    }
+
                 }
             }
         }

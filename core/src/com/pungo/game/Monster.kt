@@ -85,6 +85,10 @@ class Monster: MultiMediaItem("Monster") {
         return clothes
     }
 
+    fun wear(l: List<String>){
+        l.forEach{it-> wearSock(it) }
+    }
+
     fun undress(){
         listOf(leftArm,rightArm, leftLeg, rightLeg, tummy).forEach {
             it.invisibleExcept("default")
