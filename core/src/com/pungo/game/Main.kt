@@ -27,12 +27,14 @@ class Main : ApplicationAdapter() {
         GetLcs.lcsInitialize(1280,720)
         Gdx.input.inputProcessor = inputProcessor
 
+
         batch = SpriteBatch()
         LayerManager.add(MenuScene(), true)
         addCursor()
     }
 
     private fun addCursor() {
+        SockMonsterCursor.that()
         //val pixmap = Pixmap(Gdx.files.internal("ui/Hand open.png"))
         //val xHotspot = pixmap.width/2
         //val yHotspot = pixmap.height/2

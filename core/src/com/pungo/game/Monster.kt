@@ -90,6 +90,7 @@ class Monster: MultiMediaItem("Monster") {
         for (part in parts) {
             parts[part.key] = "default"
         }
+        faces.invisibleExcept("0")
     }
 
     /** Wears a sock by id
