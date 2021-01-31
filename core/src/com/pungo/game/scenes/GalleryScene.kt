@@ -19,8 +19,12 @@ class GalleryScene: Scene("gallery",0f) {
     var index = 0
 
     init {
-         val v = loadMonster("monster_json/attempt0")
-         println(v)
+        //for (i in 0..1000000){
+        //    loadMonster()
+        //}
+
+        // val v = loadMonster("monster_json/attempt0")
+        // println(v)
         mainDistrict.addFullPlot("bg").also {
             it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("gallery/gallery_bg.png")))
         }
