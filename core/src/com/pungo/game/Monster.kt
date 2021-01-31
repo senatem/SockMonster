@@ -134,6 +134,10 @@ class Monster: MultiMediaItem("Monster") {
         monster.writeString(toSave, false)
     }
 
+    fun onMonster(id: String) : Boolean{
+        return id in parts.values
+    }
+
     object WornSocks{
         val tummyList = listOf("M_1","S_4","M_4")
         val leftLegList =  listOf("L_2","S_1")

@@ -29,7 +29,7 @@ class MenuScene : Scene("menu", 0f, true) {
                     SfxPlayer.play("click")
                     LayerManager.scenesToRemove.add(this)
                     LayerManager.scenesToAdd.add(Pair(GameScene(), true))
-                    MusicPlayer.stop()
+                    //MusicPlayer.stop()
                     dispose()
                 }
             }
@@ -80,7 +80,7 @@ class MenuScene : Scene("menu", 0f, true) {
         }
 
         SfxPlayer.addSFX("click", "SFX/click.ogg")
-        MusicPlayer.open("SockMenu.mp3")
+        MusicPlayer.open("SockSong.mp3")
         MusicPlayer.setLooping(true)
         MusicPlayer.play()
     }
