@@ -8,6 +8,7 @@ import com.pungo.game.Monster
 import com.pungo.game.ScoreManager
 import com.pungo.game.Sock
 import com.pungo.game.SockMonsterCursor
+import com.pungo.modules.audio.MusicPlayer
 import com.pungo.modules.audio.SfxPlayer
 import com.pungo.modules.basic.geometry.Angle
 import com.pungo.modules.basic.geometry.FastGeometry
@@ -47,6 +48,9 @@ class GameScene : Scene("game", 0f, true)  {
     var testCounter = 0
     init {
 
+        MusicPlayer.open("SockSong.mp3")
+        MusicPlayer.setLooping(true)
+        MusicPlayer.play()
         SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
 
