@@ -20,7 +20,7 @@ class Sock(val id: String, path: FileHandle, val sockType: SockType, var clickFu
     var cX = GetLcs.ofZero()
     var cY = GetLcs.ofZero()
     var theta = Angle(0f)
-    var speed = 0f
+    var speed = 0.6f
     var held = false
 
     val image = PinupImage("sb",SingleTexture(path)).also {

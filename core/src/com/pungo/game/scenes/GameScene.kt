@@ -43,13 +43,11 @@ class GameScene : Scene("game", 0f, true)  {
     private val drumFreq = 0.1f
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
+    private var maxNumbOfSocks = 5
+
 
     var testCounter = 0
     init {
-
-        //MusicPlayer.open("SockSong.mp3")
-        MusicPlayer.setLooping(true)
-        MusicPlayer.play()
         SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
 
@@ -140,22 +138,22 @@ class GameScene : Scene("game", 0f, true)  {
         (mainDistrict.findPlot("score text").element!! as TextBox).changeText(n.toString())
         when {
             score>=3000 -> {
-                var maxNumbOfSocks = 30
+                maxNumbOfSocks = 30
             }
             score in 2000..2999 -> {
-                var maxNumbOfSocks = 25
+                maxNumbOfSocks = 25
             }
             score in 1500..1999 -> {
-                var maxNumbOfSocks = 20
+                maxNumbOfSocks = 20
             }
             score in 1000..1499 -> {
-                var maxNumbOfSocks = 15
+                maxNumbOfSocks = 15
             }
             score in 500..999 -> {
-                var maxNumbOfSocks = 10
+                maxNumbOfSocks = 10
             }
             else -> {
-                var maxNumbOfSocks = 5
+                maxNumbOfSocks = 5
             }
         }
     }
@@ -169,7 +167,54 @@ class GameScene : Scene("game", 0f, true)  {
         ((mainDistrict.findPlot("clothes").element as PinupImage).image as SingleTexture).subTexture.rotate(-drumSpeed*0.9f)
 
         socks.forEach {
-            it.speed = drumSpeed
+            when (it.sockType) {
+                // n is coin flip
+                SockType.LARGE -> {
+                    val n=(1..2).random()
+                    if (n==1) {
+                        it.sockRad += GetLcs.byPixel(1)
+                        if (it.sockRad == GetLcs.byPixel(200)){
+                            it.sockRad -= GetLcs.byPixel(2)
+                    } else{
+                        it.sockRad -= GetLcs.byPixel(1)
+                            if (it.sockRad == GetLcs.byPixel(200)){
+                                it.sockRad += GetLcs.byPixel(2)
+                            }
+                        }
+                    }
+                    it.relocate(it.sockRad,drumCentre)
+                }
+                SockType.MEDIUM -> {
+                    val n=(1..2).random()
+                    if (n==1) {
+                        it.sockRad += GetLcs.byPixel(1)
+                        if (it.sockRad == GetLcs.byPixel(240)){
+                            it.sockRad -= GetLcs.byPixel(2)
+                        } else{
+                            it.sockRad -= GetLcs.byPixel(1)
+                            if (it.sockRad == GetLcs.byPixel(210)){
+                                it.sockRad += GetLcs.byPixel(2)
+                            }
+                        }
+                    }
+                    it.relocate(it.sockRad,drumCentre)
+                }
+                else -> {
+                    val n=(1..2).random()
+                    if (n==1) {
+                        it.sockRad += GetLcs.byPixel(1)
+                        if (it.sockRad == GetLcs.byPixel(270)){
+                            it.sockRad -= GetLcs.byPixel(2)
+                        } else{
+                            it.sockRad -= GetLcs.byPixel(1)
+                            if (it.sockRad == GetLcs.byPixel(190)){
+                                it.sockRad += GetLcs.byPixel(2)
+                            }
+                        }
+                    }
+                    it.relocate(it.sockRad,drumCentre)
+                }
+            }
             it.theta = it.theta + Angle(it.speed,Angle.Type.DEG)
         }
         socks.forEach {
@@ -224,8 +269,34 @@ class GameScene : Scene("game", 0f, true)  {
                             it.sockRad = n
                         }
                     }
-                    val speedList = listOf(0.001f, 0.003f, 0.005f, 0.009f, 0.02f, 0.05f)
-                    it.speed = speedList.random()
+                    when {
+                        score >= 3000 -> {
+                            maxNumbOfSocks = 30
+                            it.speed = 1.8f
+                        }
+                        score in 2000..2999 -> {
+                            maxNumbOfSocks = 25
+                            it.speed = 1.4f
+                        }
+                        score in 1500..1999 -> {
+                            maxNumbOfSocks = 20
+                            it.speed = 1f
+                        }
+                        score in 1000..1499 -> {
+                            maxNumbOfSocks = 15
+                            it.speed = 0.8f
+                        }
+                        score in 500..999 -> {
+                            maxNumbOfSocks = 10
+                            it.speed = 0.6f
+                        }
+                        else -> {
+                            maxNumbOfSocks = 5
+                            it.speed = 0.4f
+                        }
+                    }
+                    val speedList = listOf(-0.1f, 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)
+                    it.speed += speedList.random()
                     it.modifyClickFunction {
                         if(monster.onMonster(it.id)) {
                             // game over
