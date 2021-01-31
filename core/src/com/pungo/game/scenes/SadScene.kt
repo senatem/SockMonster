@@ -1,13 +1,15 @@
 package com.pungo.game.scenes
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.SetButton
+import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 
-class SadScene: Scene("sad",0f) {
+class SadScene(val finalScore: Int): Scene("sad",0f) {
 
     init {
 
@@ -26,6 +28,10 @@ class SadScene: Scene("sad",0f) {
 
         mainDistrict.addFullPlot("replay", Rectangle(1028f / 1280f, 1232f / 1280f, 32f / 720f, 132f / 720f))
             //replay tuşu
+
+        mainDistrict.addFullPlot("score").also {
+            it.element = TextBox("score","$finalScore","font/MPLUSRounded1c-Black.ttf",36,colour= Color(223f/255f, 237f/255f, 240f/255f,1f))
+        }
 
 
 

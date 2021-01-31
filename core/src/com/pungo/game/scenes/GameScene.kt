@@ -223,11 +223,14 @@ class GameScene : Scene("game", 0f, true)  {
                         if(it in looted) {
                             // game over
                             println(ScoreManager.listScores())
-                            score = 0
-                            updateScoreboard()
-                            looted.clear()
-                            socks.clear()
-                            filled.clear()
+                            //score = 0
+                            //updateScoreboard()
+                            //looted.clear()
+                            //socks.clear()
+                            //filled.clear()
+                            LayerManager.scenesToRemove.add(this)
+                            LayerManager.scenesToAdd.add(Pair(SadScene(score), true))
+                            dispose()
                         }
                         else {
                             socks.remove(it)
