@@ -204,7 +204,7 @@ class GameScene : Scene("game", 0f, true)  {
                 sockDrawer.random().also {
                     val loc = (0 until spawnCount).filter{index -> index !in filled}.random()
                     filled.add(loc)
-                      it.theta = Angle(((0..360).random()).toFloat(),Angle.Type.DEG)
+                    it.theta = Angle(((0..360).random()).toFloat(),Angle.Type.DEG)
 
                     when (it.sockType) {
                         // n is the range of the sock

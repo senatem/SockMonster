@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 
 class Monster: MultiMediaItem("Monster") {
     private val parts = mutableMapOf("leftArm" to "default", "rightArm" to "default", "leftLeg" to "default", "rightLeg" to "default", "tummy" to "default")
+    var templock = "default"
     val faces = MultiMediaItem("faces").also {
         it.addElement(PinupImage("0",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/0.png"))))
         it.addElement(PinupImage("1",SingleTexture(Gdx.files.internal("Sock Monster Body parts/face/1.png"))))
@@ -139,7 +140,11 @@ class Monster: MultiMediaItem("Monster") {
     }
 
     fun onMonster(id: String) : Boolean{
-        return id in parts.values
+        if(id!=templock){
+            templock = id
+            return id in parts.values
+        }
+        return false
     }
 
     object WornSocks{
@@ -148,5 +153,10 @@ class Monster: MultiMediaItem("Monster") {
         val rightLegList = listOf("L_3","M_2","M_3")
         val leftArmList = listOf("S_2","S_3")
         val rightArmList = listOf("L_1","S_5")
+    }
+
+    override fun update() {
+        super.update()
+        templock = ""
     }
 }
