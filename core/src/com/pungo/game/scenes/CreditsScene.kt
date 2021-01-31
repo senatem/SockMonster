@@ -4,12 +4,17 @@ import com.badlogic.gdx.Gdx
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
+import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 
 class CreditsScene: Scene("credits",0f) {
 
     init {
+
+        mainDistrict.addFullPlot("bg").also {
+            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("credits/credits_full.png")))
+        }
 
         mainDistrict.addFullPlot("back", Rectangle(44f / 1280f, 214f / 1280f, 616f / 720f, 702f / 720f)).also {
             it.element = SetButton("back",

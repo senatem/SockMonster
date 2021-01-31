@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
+import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.uiElements.TextBox
 import com.pungo.modules.visuals.textureHandling.SingleTexture
@@ -12,6 +13,10 @@ import com.pungo.modules.visuals.textureHandling.SingleTexture
 class SadScene(val finalScore: Int): Scene("sad",0f) {
 
     init {
+
+        mainDistrict.addFullPlot("bg").also {
+            it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("ending/ending_bg.png")))
+        }
 
         mainDistrict.addFullPlot("back", Rectangle(44f / 1280f, 214f / 1280f, 616f / 720f, 702f / 720f)).also {
             it.element = SetButton("back",
