@@ -48,10 +48,6 @@ class GameScene : Scene("game", 0f, true)  {
 
     var testCounter = 0
     init {
-
-        //MusicPlayer.open("SockSong.mp3")
-        MusicPlayer.setLooping(true)
-        MusicPlayer.play()
         SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
 
