@@ -15,7 +15,7 @@ import kotlinx.serialization.json.Json
 class GalleryScene: Scene("gallery",0f) {
 
     init {
-
+        val v = loadMonster("monster_json")
         mainDistrict.addFullPlot("bg").also {
             it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("gallery/gallery_bg.png")))
         }
@@ -50,10 +50,19 @@ class GalleryScene: Scene("gallery",0f) {
 
         mainDistrict.addFullPlot("image", Rectangle(164f / 1280f, 1118f / 1280f, 48f / 720f, 576f / 720f))
         SfxPlayer.addSFX("click", "SFX/click.ogg")
+
     }
 
-    fun loadMonster(path: String) : Map<String, String>{
-        val file = Gdx.files.local("path")
-        return Json.decodeFromString(file.readString())
+    fun loadMonster(path: String) : List<Map<String, String>> {
+        val v1 = Gdx.files.internal(path).list()
+        val v3= v1[0].readString().toString()
+        val sth = Json { isLenient=true }
+        val v2 = sth.decodeFromString<List<String>>(v1[0].readString().toString())
+
+        val v = Gdx.files.internal(path).list().map {it-> Json.decodeFromString<Map<String,String>>(it.readString().toString()) }
+
+
+
+        return v
     }
 }

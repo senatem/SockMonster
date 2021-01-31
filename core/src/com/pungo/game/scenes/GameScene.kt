@@ -82,7 +82,7 @@ class GameScene : Scene("game", 0f, true)  {
                     it.recolour(Color(0.8f,0.8f,0.8f,1f))
                 }).also {
                 it.clicked = {
-                    monster.saveToGallery("attempt$testCounter")
+                    monster.saveToGallery("monster_json/attempt$testCounter")
                     testCounter++
                     monster.undress()
                     looted.clear()
