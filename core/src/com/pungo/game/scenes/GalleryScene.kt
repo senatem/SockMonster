@@ -12,13 +12,15 @@ import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.io.File
 
 class GalleryScene: Scene("gallery",0f) {
     val galleryMonsters = mutableListOf(listOf("default","default","default","default","default"))
     var index = 0
 
     init {
-        val v = loadMonster("monster_json")
+         val v = loadMonster("monster_json/attempt0")
+         println(v)
         mainDistrict.addFullPlot("bg").also {
             it.element = PinupImage("bg",SingleTexture(Gdx.files.internal("gallery/gallery_bg.png")))
         }
@@ -74,16 +76,11 @@ class GalleryScene: Scene("gallery",0f) {
 
     }
 
-    fun loadMonster(path: String) : List<Map<String, String>> {
-        val v1 = Gdx.files.internal(path).list()
-        val v3= v1[0].readString().toString()
-        val sth = Json { isLenient=true }
-        val v2 = sth.decodeFromString<List<String>>(v1[0].readString().toString())
-
-        val v = Gdx.files.internal(path).list().map {it-> Json.decodeFromString<Map<String,String>>(it.readString().toString()) }
-
-
-
-        return v
+    fun loadMonster(path: String) : Map<String, String> {
+        val json = Json { isLenient=true }
+        val file = Gdx.files.internal(path)
+        val res = json.decodeFromString<Map<String, String>>(file.readString())
+        return res
     }
+
 }
