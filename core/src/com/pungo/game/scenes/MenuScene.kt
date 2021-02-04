@@ -9,6 +9,7 @@ import com.pungo.modules.basic.geometry.Rectangle
 import com.pungo.modules.scenes.LayerManager
 import com.pungo.modules.scenes.Scene
 import com.pungo.modules.uiElements.FastGenerator
+import com.pungo.modules.uiElements.MultiSetButton
 import com.pungo.modules.uiElements.PinupImage
 import com.pungo.modules.uiElements.SetButton
 import com.pungo.modules.visuals.textureHandling.SingleTexture
@@ -17,6 +18,24 @@ class MenuScene : Scene("menu", 0f, true) {
     init {
         mainDistrict.addFullPlot("bg").also {
             it.element = PinupImage("bg", SingleTexture(Gdx.files.internal("menu/bg_flat.png")))
+        }
+
+        mainDistrict.addFullPlot("sound", Rectangle(1210f/1280f, 1260f/1280f,650f/720f,700f/720f)).also {
+            it.element = MultiSetButton("sm2").also {it2->
+                it2.addButton(SetButton("sm2_muter", SingleTexture(Gdx.files.internal("ui/sound_on.png"))).also {it3->
+                    it3.clicked = {
+                        SfxPlayer.play("click")
+                        //TODO MUTE
+                    }
+                })
+
+                it2.addButton(SetButton("sm2_unmuter", SingleTexture(Gdx.files.internal("ui/sound_off.png"))).also {it3->
+                    it3.clicked = {
+                        SfxPlayer.play("click")
+                        // TODO UNMUTE
+                    }
+                })
+            }
         }
 
         mainDistrict.addFullPlot("go", Rectangle(852f / 1280f, 1230f / 1280f, 258f / 720f, 380f / 720f)).also {
@@ -28,7 +47,7 @@ class MenuScene : Scene("menu", 0f, true) {
                 it2.clicked = {
                     SfxPlayer.play("click")
                     LayerManager.scenesToRemove.add(this)
-                    LayerManager.scenesToAdd.add(Pair(GameScene(), true))
+                    LayerManager.scenesToAdd.add(Pair(ComicScene(), true))
                     //MusicPlayer.stop()
                     dispose()
                 }
