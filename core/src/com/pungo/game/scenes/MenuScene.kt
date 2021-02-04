@@ -26,6 +26,7 @@ class MenuScene : Scene("menu", 0f, true) {
                     it3.clicked = {
                         SfxPlayer.play("click")
                         //TODO MUTE
+                        MusicPlayer.mute(true)
                     }
                 })
 
@@ -33,6 +34,7 @@ class MenuScene : Scene("menu", 0f, true) {
                     it3.clicked = {
                         SfxPlayer.play("click")
                         // TODO UNMUTE
+                        MusicPlayer.mute(false)
                     }
                 })
             }
