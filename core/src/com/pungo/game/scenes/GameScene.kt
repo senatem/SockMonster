@@ -44,10 +44,14 @@ class GameScene : Scene("game", 0f, true)  {
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
     private var maxNumbOfSocks = 5
+    var testCounter = 0
 
-
-    var testCounter = Gdx.files.local("monster_json").file().listFiles().size - 1
     init {
+        try{
+            testCounter = Gdx.files.local("monster_json").file().listFiles().size - 1
+        } catch (e: Exception) {
+            Gdx.files.local("monster_json").mkdirs()
+        }
         SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
 
