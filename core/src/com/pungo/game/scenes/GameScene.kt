@@ -46,7 +46,7 @@ class GameScene : Scene("game", 0f, true)  {
     private var maxNumbOfSocks = 5
 
 
-    var testCounter = 0
+    var testCounter = Gdx.files.local("monster_json").file().listFiles().size - 1
     init {
         SfxPlayer.addSFX("click", "SFX/click.ogg")
         mainDistrict.addFullPlot("background",z=1).also {
