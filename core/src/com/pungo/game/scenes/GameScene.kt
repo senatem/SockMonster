@@ -35,12 +35,12 @@ class GameScene : Scene("game", 0f, true)  {
 
     private val drumCentre = Pair(mainDistrict.block.width*379/1280,mainDistrict.block.cY)
     private var radius = mainDistrict.block.height*0.3f
-    private val spawnCount = 12
+    private val spawnCount = 12 // çorap sayısı
     var theta = (0 until spawnCount).map {3.141f*2f*(it/spawnCount.toFloat()) }
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
-    private val drumFreq = 0.1f
+    private val drumFreq = 0.2f // dönme hızı
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
     private var maxNumbOfSocks = 5
@@ -273,7 +273,8 @@ class GameScene : Scene("game", 0f, true)  {
                             it.sockRad = n
                         }
                     }
-                    when {
+                    it.speed
+                    /* when {
                         score >= 3000 -> {
                             maxNumbOfSocks = 30
                             it.speed = 1.8f
@@ -298,9 +299,10 @@ class GameScene : Scene("game", 0f, true)  {
                             maxNumbOfSocks = 5
                             it.speed = 0.4f
                         }
-                    }
+                    } */
                     val speedList = listOf(-0.1f, 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)
-                    it.speed += speedList.random()
+                    // val speedList = listOf(-0.1f, 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)
+                    // it.speed += speedList.random()
                     it.modifyClickFunction {
                         if(monster.onMonster(it.id)) {
                             // game over
