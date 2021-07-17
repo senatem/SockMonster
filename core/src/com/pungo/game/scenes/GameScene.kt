@@ -40,7 +40,7 @@ class GameScene : Scene("game", 0f, true)  {
     private val filled = mutableListOf<Int>()
     private val socks = mutableListOf<Sock>()
     private val sockDrawer = mutableListOf<Sock>()
-    private val drumFreq = 0.2f // dönme hızı
+    private val drumFreq = 0.1f // dönme hızı
     private val baseSockSpeed = Angle(0.1f)
     private val monster = Monster()
     private var maxNumbOfSocks = 5
